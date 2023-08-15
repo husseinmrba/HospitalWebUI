@@ -1,0 +1,22 @@
+.center-content{
+    text-align: center;
+}
+.rounded-except-right {
+    border-radius: 8px 0 0 8px; /* جعل الجوانب مستديرة ما عدا اليمين */
+    padding: 7px;
+    display: inline-block;
+}
+.rounded-except-left {
+    border-radius: 0 8px 8px 0; /* جعل الجوانب مستديرة ما عدا اليمين */
+    padding: 6px;
+    display: inline-block;
+}
+.delete-icon {
+    /* تعريف أي أنماط أخرى للعنصر هنا */
+    transition: box-shadow 0.3s; /* تحقيق تأثير الانتقال للظل */
+    cursor: pointer; /* تغيير شكل المؤشر إلى اصبع */
+  }
+  
+  .delete-icon:hover {
+    color: #0D6EFD;
+  }

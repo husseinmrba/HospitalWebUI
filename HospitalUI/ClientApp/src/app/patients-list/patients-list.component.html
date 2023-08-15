@@ -1,0 +1,125 @@
+<h3 >Patients List</h3><br/>
+
+<p *ngIf="!patientsWithPagination"><em>Loading...</em></p>
+
+<div class="card" *ngIf="!!patientsWithPagination">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-2">
+                <select class="form-select"
+                        aria-label="Choose to search by"
+                        (change)="saveSelectedValue($event)">
+                    <option value="0"disabled  selected>Choose search by</option>
+                    <option value="1">Name</option>
+                    <option value="2">File-No</option>
+                    <option value="3">Phone Number</option>
+                </select>
+            </div>
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input
+                      type="Search"
+                      class="form-control rounded-except-right"
+                      placeholder="Search"
+                      aria-label="Search"
+                      aria-describedby="search-addon"
+                      name="the_word_to_be_searched_for"
+                      [(ngModel)]="keyWord"
+                      (keyup.enter)="onSearch()"
+                    />
+                    <button class="btn btn-primary rounded-except-left"
+                            type="submit"
+                            (click)="onSearch()">
+                       Search
+                    </button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row">
+           <div class="col-sm-2">
+                <div class="input-group">
+                    <div class="input-group mb-3">
+                          <span class="input-group-text" >Page size:</span>
+                         <input type="number"
+                                class="form-control center-content"
+                                [value]="pageSizeToPagination"
+                                (change)="onChangePageSize($event)">
+                    </div>
+              </div>
+           </div>
+        </div>
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-striped center-content">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Record_creation</th>
+                            <th>Delete</th>
+                            <th>Name</th>
+                            <th>File_No</th>
+                            <th>Gender</th>
+                            <th>Natinality</th>
+                            <th>Phone_number</th>
+                            <th>Email</th>
+                            <th>City</th>
+                            <th>Street</th>
+                            <th>First_address</th>
+                            <th>Second_address</th>
+                            <th>Contact_person</th>
+                            <th>Contact_relation</th>
+                            <th>Contact_phone</th>
+                            <th>First_visit__</th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let patient of patientsWithPagination.items; index as i">
+                            <td>{{i+1}}</td>
+                            <td>{{patient.recordCreationDate | date:'dd-MM-yyyy'}}</td>
+                            <td>
+                                <i class="fa fa-trash fa-lg delete-icon" (click)="deletePatient(patient.id, patient.name)"></i>
+                            </td>
+                            <td>{{patient.name}}</td>
+                            <td>{{patient.fileNo}}</td>
+                            <td>{{patient.gender?'Female':'Male'}}</td>
+                            <td>{{patient.natinality}}</td>
+                            <td>{{patient.phoneNumber}}</td>
+                            <td>{{patient.email}}</td>
+                            <td>{{patient.city}}</td>
+                            <td>{{patient.street}}</td>
+                            <td>{{patient.address1}}</td>
+                            <td>{{patient.address2}}</td>
+                            <td>{{patient.contactPerson}}</td>
+                            <td>{{patient.contactRelation}}</td>
+                            <td>{{patient.contactPhone}}</td>
+                            <td>{{patient.firstVisitDate| date:'dd-MM-yyyy'}}</td>
+                            
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div> <br/>
+        
+        
+        
+    </div>
+
+    <div class="card-footer">
+        <div class="row">
+            <div class="col-12 d-flex justify-content-center">
+                <pagination [boundaryLinks]="true"
+                            [totalItems]="patientsWithPagination.totalCount"
+                            [(ngModel)]="patientsWithPagination.pageNumber"
+                            [itemsPerPage]="pageSizeToPagination"
+                            (numPages)="smallnumPages = $event"
+                            (click)="getPatients()">
+                </pagination>
+            </div>
+        </div>
+    </div>
+</div>
