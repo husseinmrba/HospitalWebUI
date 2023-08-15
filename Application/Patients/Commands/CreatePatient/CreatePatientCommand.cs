@@ -46,8 +46,9 @@ namespace Application.Patients.Commands.CreatePatient
         {
 
             var newPatient = _mapper.Map<Patient>(request);
-            newPatient.RecordCreationDate = DateTime.Now;
 
+            newPatient.RecordCreationDate = DateTime.Now;
+            
             await _context.Patients.AddAsync(newPatient);
             await _context.SaveChangesAsync();
 

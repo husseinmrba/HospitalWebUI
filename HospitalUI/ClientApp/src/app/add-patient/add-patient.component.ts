@@ -54,6 +54,7 @@ export class AddPatientComponent implements OnInit, OnDestroy {
       this.sub.unsubscribe();
 
     let newPatient = this.addPatientForm.value as PatientForCreate;
+    console.log(newPatient);
     this.sub = this._patientCommands.addPatient(newPatient).subscribe(id => {
       console.log('patient created',id);
       this.addPatientForm.reset();

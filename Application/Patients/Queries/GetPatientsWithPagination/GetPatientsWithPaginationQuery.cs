@@ -40,21 +40,21 @@ namespace Application.Patients.Queries.GetPatientsWithPagination
         {
             switch (searchBy)
             {
-                // Filter by name
+                // Search by name
                 case 1:
                     if (!string.IsNullOrEmpty(keyWord))
                         query = query.Where(p => p.Name.StartsWith(keyWord))
                                      .OrderBy(p => p.Name);
                     break;
 
-                // Filter by fileNo
+                // Search by fileNo
                 case 2:
-                    if (!string.IsNullOrEmpty(keyWord) && int.TryParse(keyWord, out _))
+                    if (!string.IsNullOrEmpty(keyWord))
                         query = query.Where(p => p.FileNo.ToString().StartsWith(keyWord))
                                      .OrderBy(p => p.FileNo);    
                     break;
 
-                // Filter by phone number
+                // Search by phone number
                 case 3:
                     if (!string.IsNullOrEmpty(keyWord))
                         query = query.Where(p => p.PhoneNumber.StartsWith(keyWord))
