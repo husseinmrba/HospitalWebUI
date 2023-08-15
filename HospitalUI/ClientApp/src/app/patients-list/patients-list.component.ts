@@ -5,6 +5,7 @@ import { IPaginatedListOfPatient } from '../interfaces/ipaginated-list-of-patien
 import { Subscription } from 'rxjs';
 import { IPatientCommands } from '../interfaces/patients/ipatient-commands';
 import { PatientCommandsService } from '../services/patients/patient-commands/patient-commands.service';
+import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 
 @Component({
   selector: 'app-patients-list',
@@ -62,8 +63,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
                   this.patientsWithPagination.pageNumber,
                   this.pageSizeToPagination,
                   this.searchBy,
-                  this.keyWord).subscribe((result) => {
-
+                  this.keyWord).subscribe((result) => {             
       this.patientsWithPagination = result;
     },
     error => console.log(error));
@@ -75,6 +75,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
   onSearch(){
     this.pageSizeToPagination = this.pageSize;
+    this.patientsWithPagination.pageNumber = 1;
     this.getPatients();
   }
 
@@ -93,4 +94,5 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   onChangePageSize(event: any){
     this.pageSize = event.target.value;
   }
+
 }
