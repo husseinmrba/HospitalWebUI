@@ -1,9 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IPatientCommands } from '../interfaces/patients/ipatient-commands';
 import { PatientCommandsService } from '../services/patients/patient-commands/patient-commands.service';
 import { PatientForCreate } from './patientForCreate';
 import { Subscription } from 'rxjs';
+import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-add-patient',
@@ -12,13 +13,19 @@ import { Subscription } from 'rxjs';
 })
 export class AddPatientComponent implements OnInit, OnDestroy {
 
+  
+  @Input() addPatientModalRef?: BsModalRef;
+
+
   sub!: Subscription;
 
   addPatientForm!: FormGroup;
   
   private _patientCommands! : IPatientCommands;
 
-  constructor(@Inject(PatientCommandsService) patientCommands: IPatientCommands) { 
+  constructor(@Inject(PatientCommandsService) patientCommands: IPatientCommands,
+              ) { 
+
     this._patientCommands = patientCommands;
   }
   ngOnDestroy(): void {
@@ -26,6 +33,8 @@ export class AddPatientComponent implements OnInit, OnDestroy {
       this.sub.unsubscribe();
   }
 
+
+  
   ngOnInit(): void {
 
     this.addPatientForm = new FormGroup({
@@ -60,5 +69,9 @@ export class AddPatientComponent implements OnInit, OnDestroy {
       this.addPatientForm.reset();
     },
     error => console.log(error));
+  }
+
+  addPatientCancelled(){
+    this.addPatientModalRef?.hide();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { PatientQueriesService } from '../services/patients/patient-queries/patient-queries.service';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
 import { IPaginatedListOfPatient } from '../interfaces/ipaginated-list-of-patient';
@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { IPatientCommands } from '../interfaces/patients/ipatient-commands';
 import { PatientCommandsService } from '../services/patients/patient-commands/patient-commands.service';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
+import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 
 @Component({
   selector: 'app-patients-list',
@@ -13,6 +14,11 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
   styleUrls: ['./patients-list.component.css'],
 })
 export class PatientsListComponent implements OnInit, OnDestroy {
+
+
+  addPatientModalRef?: BsModalRef;
+
+
 
   subAddPatient!: Subscription; 
   subDeletePatient!: Subscription; 
@@ -29,7 +35,8 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   private _patientCommands! : IPatientCommands;
 
   constructor(@Inject(PatientQueriesService) patientQueries: IPatientQueries,
-              @Inject(PatientCommandsService) patientCommands: IPatientCommands,) { 
+              @Inject(PatientCommandsService) patientCommands: IPatientCommands,
+              private modalService: BsModalService) { 
     this._patientQueries = patientQueries;
     this._patientCommands = patientCommands;
   }
@@ -41,7 +48,12 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this._keyWord = v;
   }
 
-
+    openModalWithClass(template: TemplateRef<any>) {
+    this.addPatientModalRef = this.modalService.show(
+      template,
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+  }
 
   ngOnInit(): void {
     this.getPatients();

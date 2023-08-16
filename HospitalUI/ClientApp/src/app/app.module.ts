@@ -14,6 +14,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { AddPatientComponent } from './add-patient/add-patient.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
+import { ModalModule } from 'ngx-bootstrap/modal';
 
 @NgModule({
   declarations: [
@@ -34,12 +35,13 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
       { path: 'fetch-data', component: FetchDataComponent },
       { path: 'patients', component: PatientsListComponent },
       { path: 'add', component: AddPatientComponent },
-      { path: '', component: AddPatientComponent, pathMatch: 'full' },
+      { path: '', component: PatientsListComponent, pathMatch: 'full' },
     ]),
     BrowserAnimationsModule,
     PaginationModule.forRoot(),
     ReactiveFormsModule,
     BsDatepickerModule,
+    ModalModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

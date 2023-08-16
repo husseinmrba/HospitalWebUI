@@ -35,7 +35,10 @@
                     </button>
                 </div>
             </div>
-            
+            <div class="col-md-1">&nbsp;</div>
+            <div class="col-md-2 d-flex py-0 mb-3 justify-content-end">
+                <button type="button" class="btn btn-primary" (click)="openModalWithClass(addPatientModalTemplate)">Add Patient</button>
+            </div>
         </div>
     </div>
     <div class="card-body">
@@ -45,7 +48,7 @@
                     <div class="input-group mb-3">
                           <span class="input-group-text" >Page size:</span>
                          <input type="number"
-                                class="form-control center-content"
+                                class="form-control text-center"
                                 [value]="pageSizeToPagination"
                                 (change)="onChangePageSize($event)">
                     </div>
@@ -53,27 +56,27 @@
            </div>
         </div>
         <div class="row">
-            <div class="table-responsive">
-                <table class="table table-striped center-content">
+            <div class="table-responsive text-center" style="white-space: nowrap;">
+                <table class="table table-striped text-content">
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Record_creation</th>
+                            <th>Record creation</th>
                             <th>Delete</th>
                             <th>Name</th>
-                            <th>File_No</th>
+                            <th>File No</th>
                             <th>Gender</th>
                             <th>Natinality</th>
-                            <th>Phone_number</th>
+                            <th>Phone number</th>
                             <th>Email</th>
                             <th>City</th>
                             <th>Street</th>
-                            <th>First_address</th>
-                            <th>Second_address</th>
-                            <th>Contact_person</th>
-                            <th>Contact_relation</th>
-                            <th>Contact_phone</th>
-                            <th>First_visit__</th>
+                            <th>First address</th>
+                            <th>Second address</th>
+                            <th>Contact person</th>
+                            <th>Contact relation</th>
+                            <th>Contact phone</th>
+                            <th>First visit</th>
                             
                         </tr>
                     </thead>
@@ -104,9 +107,6 @@
                 </table>
             </div>
         </div> <br/>
-        
-        
-        
     </div>
 
     <div class="card-footer">
@@ -123,3 +123,10 @@
         </div>
     </div>
 </div>
+
+
+
+<!-- model -->
+<ng-template #addPatientModalTemplate>
+   <app-add-patient [addPatientModalRef]="addPatientModalRef"></app-add-patient>
+</ng-template>

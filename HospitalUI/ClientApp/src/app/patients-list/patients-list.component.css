@@ -1,6 +1,3 @@
-.center-content{
-    text-align: center;
-}
 .rounded-except-right {
     border-radius: 8px 0 0 8px; /* جعل الجوانب مستديرة ما عدا اليمين */
     padding: 7px;
