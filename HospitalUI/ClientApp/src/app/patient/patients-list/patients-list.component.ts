@@ -9,6 +9,7 @@ import { PatientQueriesService } from '../services/patient-queries/patient-queri
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
 import { AddPatientComponent } from '../add-patient/add-patient.component';
 import { ActivatedRoute, Router } from '@angular/router';
+import { PatientsDataService } from '../patients-data/patients-data.service';
 
 @Component({
   selector: 'app-patients-list',
@@ -38,7 +39,8 @@ export class PatientsListComponent implements OnInit, OnDestroy {
               @Inject(PatientCommandsService) patientCommands: IPatientCommands,
               private modalService: BsModalService,
               private route: ActivatedRoute,
-              private router: Router) { 
+              private router: Router,
+              private patientsDataService:PatientsDataService) { 
     this._patientQueries = patientQueries;
     this._patientCommands = patientCommands;
   }
@@ -76,10 +78,14 @@ export class PatientsListComponent implements OnInit, OnDestroy {
                   this.patientsWithPagination.pageNumber,
                   this.pageSizeToPagination,
                   this.searchBy,
-                  this.keyWord).subscribe((result) => {             
-      this.patientsWithPagination = result;
-    },
-    error => console.log(error));
+                  this.keyWord).subscribe((result) => {     
+
+        this.patientsDataService.setTableData(result);
+        this.patientsDataService.getTableData().subscribe(data => {
+        this.patientsWithPagination = data;
+        });
+      },
+      error => console.log(error));   
   }
 
   saveSelectedValue(event: any){

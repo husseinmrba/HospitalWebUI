@@ -7,6 +7,9 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
 import { Router } from '@angular/router';
 import { PatientsListComponent } from '../patients-list/patients-list.component';
+import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
+import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
+import { PatientsDataService } from '../patients-data/patients-data.service';
 
 @Component({
   selector: 'app-add-patient',
@@ -19,14 +22,18 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
   addPatientForm!: FormGroup;
   
   private _patientCommands! : IPatientCommands;
+  private _patientQueries! : IPatientQueries;
 
   constructor(@Inject(PatientCommandsService) patientCommands: IPatientCommands,
+              @Inject(PatientQueriesService) patientQueries: IPatientQueries,
               private BsModalRef:BsModalRef,
               private modalService:BsModalService,
               private router: Router,
+              private patientsDataService:PatientsDataService,
               ) { 
 
     this._patientCommands = patientCommands;
+    this._patientQueries = patientQueries;
 
   }
 
@@ -65,9 +72,17 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
       this.sub.unsubscribe();
 
     let newPatient = this.addPatientForm.value as PatientForCreate;
-    console.log(newPatient);
+
     this.sub = this._patientCommands.addPatient(newPatient).subscribe(id => {
+
       console.log('patient created',id);
+      let patientInfo = {
+        ...newPatient,
+        id: id,
+        recordCreationDate: Date.now()
+      };
+
+      this.patientsDataService.addDataToTable(patientInfo);
       this.addPatientForm.reset();
       this.addPatientCancelled();
     },
