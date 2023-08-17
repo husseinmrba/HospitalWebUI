@@ -6,15 +6,14 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent, ModalContentComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
-import { PatientsListComponent } from './patients-list/patients-list.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { PaginationModule } from 'ngx-bootstrap/pagination';
-import { AddPatientComponent } from './add-patient/add-patient.component';
-import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
+import { SharedModule } from './shared/shared.module';
+import { PatientModule } from './patient/patient.module';
+import { AddPatientComponent } from './patient/add-patient/add-patient.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -23,25 +22,29 @@ import { ModalModule } from 'ngx-bootstrap/modal';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    PatientsListComponent,
-    AddPatientComponent
+    ModalContentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
     RouterModule.forRoot([
       { path: 'counter', component: CounterComponent },
+      { path: 'home', component: HomeComponent },
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'patients', component: PatientsListComponent },
-      { path: 'add', component: AddPatientComponent },
-      { path: '', component: PatientsListComponent, pathMatch: 'full' },
+      { path: 'modal', component: ModalContentComponent },
+      {
+        path: 'patients',
+        loadChildren: () =>
+          import('./patient/patient.module').then(
+            m => m.PatientModule)
+      },
+      
+      // General 2 Path
+      { path: '', redirectTo: 'home', pathMatch: 'full'},
+      { path: '**', redirectTo: 'home', pathMatch: 'full'},
     ]),
-    BrowserAnimationsModule,
-    PaginationModule.forRoot(),
-    ReactiveFormsModule,
-    BsDatepickerModule,
-    ModalModule.forRoot(),
+    SharedModule,  
+    ModalModule.forRoot()  
   ],
   providers: [],
   bootstrap: [AppComponent]

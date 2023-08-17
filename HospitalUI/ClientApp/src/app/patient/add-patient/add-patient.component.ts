@@ -1,10 +1,10 @@
 import { Component, Inject, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { IPatientCommands } from '../interfaces/patients/ipatient-commands';
-import { PatientCommandsService } from '../services/patients/patient-commands/patient-commands.service';
+import { IPatientCommands } from '../../interfaces/patients/ipatient-commands';
 import { PatientForCreate } from './patientForCreate';
 import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
 
 @Component({
   selector: 'app-add-patient',
@@ -13,10 +13,6 @@ import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 })
 export class AddPatientComponent implements OnInit, OnDestroy {
 
-  
-  @Input() addPatientModalRef?: BsModalRef;
-
-
   sub!: Subscription;
 
   addPatientForm!: FormGroup;
@@ -24,9 +20,11 @@ export class AddPatientComponent implements OnInit, OnDestroy {
   private _patientCommands! : IPatientCommands;
 
   constructor(@Inject(PatientCommandsService) patientCommands: IPatientCommands,
-              ) { 
+              private BsModalRef:BsModalRef,
+              private modalService:BsModalService) { 
 
     this._patientCommands = patientCommands;
+
   }
   ngOnDestroy(): void {
     if (!!this.sub)
@@ -56,7 +54,14 @@ export class AddPatientComponent implements OnInit, OnDestroy {
       contactRelation: new FormControl(),
       contactPhone: new FormControl(),
     });
+    console.log(this.BsModalRef);
 
+      this.BsModalRef = this.modalService.show(
+      'template',
+      Object.assign({}, { class: 'gray modal-lg' })
+    );
+
+    
   }
   sendFormDate(){
     if (!!this.sub)
@@ -67,11 +72,13 @@ export class AddPatientComponent implements OnInit, OnDestroy {
     this.sub = this._patientCommands.addPatient(newPatient).subscribe(id => {
       console.log('patient created',id);
       this.addPatientForm.reset();
+      this.addPatientCancelled();
     },
     error => console.log(error));
   }
 
   addPatientCancelled(){
-    this.addPatientModalRef?.hide();
+    console.log('cancel',this.BsModalRef);
+    this.BsModalRef?.hide();
   }
 }

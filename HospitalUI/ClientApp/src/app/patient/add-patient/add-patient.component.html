@@ -1,0 +1,163 @@
+<div>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Patient Add</h4>
+    <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="addPatientCancelled()">
+      <span aria-hidden="true" class="visually-hidden">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <div class="row">
+          <form (ngSubmit)="sendFormDate()" [formGroup]="addPatientForm">
+            <div class="row">
+                  <div class="col-md-1">&nbsp;</div>
+                  <div class="col-md-5">
+                      <div class="mb-3">
+                          <div class="input-group">
+                              <span class="input-group-text">Name</span>
+                              <input type="text" class="form-control" required formControlName="name" placeholder="Full name" aria-label="full-name"> 
+                          </div>
+                          <span class="text-danger" *ngIf="addPatientForm.get('name')?.errors?.['required']">Name is required</span>
+                      </div>
+  
+                      <div class="input-group">
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">File-No</span>
+                          <input type="text" class="form-control" formControlName="fileNo" placeholder="file-no" aria-label="file-no" >
+                        </div>
+                      </div>
+  
+                      <div class="input-group">
+                        <div class="input-group mb-3">
+                          <span class="input-group-text">Citizen-Id</span>
+                          <input type="text" class="form-control" formControlName="citizenId" placeholder="citizen-id" aria-label="citizen-id">
+                        </div>
+                      </div>
+  
+                        <div class="input-group">
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">Birthdate</span>
+                            <input type="text"
+                                  formControlName="birthdate"
+                                  placeholder="birthdate"
+                                  class="form-control"
+                                  bsDatepicker
+                                  [bsConfig]="{ isAnimated: true }"
+                                />
+                        </div>
+                      </div>
+  
+                        <div class="input-group">
+                          <div class="input-group mb-3">
+                              <span class="input-group-text" >First visit date</span>
+                              <input type="text"
+                                    formControlName="firstVisitDate"
+                                    placeholder="First visit date"
+                                    class="form-control"
+                                    bsDatepicker
+                                    [bsConfig]="{ isAnimated: true }"
+                                  />
+                          </div>
+                      </div>
+  
+                        <div class="input-group">
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Natinality</span>
+                          <input type="text" class="form-control" formControlName="natinality" placeholder="natinality" aria-label="natinality">
+                        </div>
+                      </div>
+  
+                        <div class="input-group">
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >PhoneNumber</span>
+                          <input type="text" class="form-control" formControlName="phoneNumber" placeholder="phone number" aria-label="phone-number">
+                        </div>
+                      </div>
+  
+                        <div class="input-group">
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Email</span>
+                          <input type="text" class="form-control" formControlName="email" placeholder="patient@hospital.com" aria-label="email">
+                        </div>
+                      </div>
+      
+                          <div class="checkbox-tick input-group">
+                              <span class="input-group-text" >Gender</span>
+                              <span class="input-group-text">
+                                <label class="male" style="margin: 0 auto">
+                                  <input type="radio" formControlName="gender" name="gender" [value]="false"> Male <br>
+                                  <span class="checkmark"></span>
+                                  </label>
+                              </span>
+                              <span class="input-group-text">
+                                <label class="female" style="margin: 0 auto">
+                                  <input type="radio" formControlName="gender" name="gender" [value]="true"> Female <br>
+                                  <span class="checkmark"></span>
+                                  </label>
+                              </span>
+                          </div>
+                  </div>
+      
+                  <div class="col-md-5">
+                      <div class="input-group mb-3">
+                          <span class="input-group-text" id="basic-addon1">Country</span>
+                          <input type="text" class="form-control" formControlName="country" placeholder="country" aria-label="country">
+                        </div>
+                        
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >City</span>
+                          <input type="text" class="form-control" formControlName="city" placeholder="City" aria-label="city">
+                        </div>
+      
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Street</span>
+                          <input type="text" class="form-control" formControlName="street" placeholder="Street" aria-label="street">
+                        </div>
+      
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Address(1)</span>
+                          <input type="text" class="form-control" formControlName="address1" placeholder="First address" aria-label="first-address">
+                        </div>
+      
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Address(2)</span>
+                          <input type="text" class="form-control" formControlName="address2" placeholder="Second address" aria-label="second-address">
+                        </div>
+                        
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Contact person</span>
+                          <input type="text" class="form-control" formControlName="contactPerson" placeholder="Contact person" aria-label="contact-person">
+                        </div>
+      
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Contact relation</span>
+                          <input type="text" class="form-control" formControlName="contactRelation" placeholder="Contactrelation" aria-label="contact-relation">
+                        </div>
+      
+                        <div class="input-group mb-3">
+                          <span class="input-group-text" >Contact phone</span>
+                          <input type="text" class="form-control" formControlName="contactPhone" placeholder="Contact phone" aria-label="contact-phone">
+                        </div>
+                      </div>
+                  
+                  <div class="col-md-1">&nbsp;</div>
+              </div>
+            <div class="row">
+              <div class="col-md-5">&nbsp;</div>
+                <div class="col-md-6">
+                    <div class="input-group mb-3 justify-content-end">
+                      <button type="submit" class="btn btn-primary">
+                          Add
+                      </button>
+                      <button type="button" class="btn btn-secondary" (click)="addPatientCancelled()">
+                          Cancel
+                      </button>
+                    </div>
+                </div>
+                <div class="col-md-1">&nbsp;</div>
+            </div>
+          </form>
+      </div> 
+  </div>
+</div>
+        
+

@@ -37,7 +37,7 @@
             </div>
             <div class="col-md-1">&nbsp;</div>
             <div class="col-md-2 d-flex py-0 mb-3 justify-content-end">
-                <button type="button" class="btn btn-primary" (click)="openModalWithClass(addPatientModalTemplate)">Add Patient</button>
+                <button type="button" class="btn btn-primary" (click)="showAddPatientModal()">Add Patient</button>
             </div>
         </div>
     </div>
@@ -123,10 +123,3 @@
         </div>
     </div>
 </div>
-
-
-
-<!-- model -->
-<ng-template #addPatientModalTemplate>
-   <app-add-patient [addPatientModalRef]="addPatientModalRef"></app-add-patient>
-</ng-template>

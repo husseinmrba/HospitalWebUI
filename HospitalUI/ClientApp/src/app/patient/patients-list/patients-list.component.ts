@@ -1,12 +1,14 @@
 import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
-import { PatientQueriesService } from '../services/patients/patient-queries/patient-queries.service';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
-import { IPaginatedListOfPatient } from '../interfaces/ipaginated-list-of-patient';
+import { IPaginatedListOfPatient } from '../../interfaces/ipaginated-list-of-patient';
 import { Subscription } from 'rxjs';
-import { IPatientCommands } from '../interfaces/patients/ipatient-commands';
-import { PatientCommandsService } from '../services/patients/patient-commands/patient-commands.service';
+import { IPatientCommands } from '../../interfaces/patients/ipatient-commands';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
+import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
+import { ModalContentComponent } from 'src/app/home/home.component';
+import { AddPatientComponent } from '../add-patient/add-patient.component';
 
 @Component({
   selector: 'app-patients-list',
@@ -14,9 +16,6 @@ import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
   styleUrls: ['./patients-list.component.css'],
 })
 export class PatientsListComponent implements OnInit, OnDestroy {
-
-
-  addPatientModalRef?: BsModalRef;
 
 
 
@@ -48,11 +47,11 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this._keyWord = v;
   }
 
-    openModalWithClass(template: TemplateRef<any>) {
-    this.addPatientModalRef = this.modalService.show(
-      template,
-      Object.assign({}, { class: 'gray modal-lg' })
-    );
+  showAddPatientModal() {
+    // this.modalService.show(
+    //   AddPatientComponent,
+    //   Object.assign({}, { class: 'gray modal-lg' })
+    // );
   }
 
   ngOnInit(): void {
