@@ -1,14 +1,14 @@
 import { Component, Inject, OnDestroy, OnInit, TemplateRef } from '@angular/core';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
 import { IPaginatedListOfPatient } from '../../interfaces/ipaginated-list-of-patient';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription, takeUntil } from 'rxjs';
 import { IPatientCommands } from '../../interfaces/patients/ipatient-commands';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
-import { ModalContentComponent } from 'src/app/home/home.component';
 import { AddPatientComponent } from '../add-patient/add-patient.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-patients-list',
@@ -17,7 +17,8 @@ import { AddPatientComponent } from '../add-patient/add-patient.component';
 })
 export class PatientsListComponent implements OnInit, OnDestroy {
 
-
+  destroy = new Subject<any>();
+  currentDialog!: BsModalRef;
 
   subAddPatient!: Subscription; 
   subDeletePatient!: Subscription; 
@@ -35,7 +36,9 @@ export class PatientsListComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(PatientQueriesService) patientQueries: IPatientQueries,
               @Inject(PatientCommandsService) patientCommands: IPatientCommands,
-              private modalService: BsModalService) { 
+              private modalService: BsModalService,
+              private route: ActivatedRoute,
+              private router: Router) { 
     this._patientQueries = patientQueries;
     this._patientCommands = patientCommands;
   }
@@ -48,10 +51,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
 
   showAddPatientModal() {
-    // this.modalService.show(
-    //   AddPatientComponent,
-    //   Object.assign({}, { class: 'gray modal-lg' })
-    // );
+    this.router.navigate(['/patients', { outlets: { operation: ['add'] } }]);
   }
 
   ngOnInit(): void {
@@ -63,6 +63,8 @@ export class PatientsListComponent implements OnInit, OnDestroy {
 
     if (!!this.subDeletePatient)
       this.subDeletePatient.unsubscribe();
+
+      this.destroy.next(undefined);
   }
 
   getPatients(){

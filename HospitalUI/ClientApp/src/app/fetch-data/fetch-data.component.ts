@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { ModalContentComponent } from '../home/home.component';
 
 @Component({
   selector: 'app-fetch-data',

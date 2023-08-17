@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent, ModalContentComponent } from './home/home.component';
+import { HomeComponent } from './home/home.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
@@ -22,16 +22,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    ModalContentComponent,
   ],
   imports: [
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
     RouterModule.forRoot([
       { path: 'counter', component: CounterComponent },
-      { path: 'home', component: HomeComponent },
+      { path: 'home', component: HomeComponent},
       { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'modal', component: ModalContentComponent },
       {
         path: 'patients',
         loadChildren: () =>

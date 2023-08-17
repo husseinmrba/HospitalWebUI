@@ -1,18 +1,19 @@
-import { Component, Inject, Input, OnDestroy, OnInit, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { IPatientCommands } from '../../interfaces/patients/ipatient-commands';
 import { PatientForCreate } from './patientForCreate';
 import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
+import { Router } from '@angular/router';
+import { PatientsListComponent } from '../patients-list/patients-list.component';
 
 @Component({
   selector: 'app-add-patient',
   templateUrl: './add-patient.component.html',
   styleUrls: ['./add-patient.component.css']
 })
-export class AddPatientComponent implements OnInit, OnDestroy {
-
+export class AddPatientComponent implements OnInit, OnDestroy  {
   sub!: Subscription;
 
   addPatientForm!: FormGroup;
@@ -21,11 +22,14 @@ export class AddPatientComponent implements OnInit, OnDestroy {
 
   constructor(@Inject(PatientCommandsService) patientCommands: IPatientCommands,
               private BsModalRef:BsModalRef,
-              private modalService:BsModalService) { 
+              private modalService:BsModalService,
+              private router: Router,
+              ) { 
 
     this._patientCommands = patientCommands;
 
   }
+
   ngOnDestroy(): void {
     if (!!this.sub)
       this.sub.unsubscribe();
@@ -54,13 +58,6 @@ export class AddPatientComponent implements OnInit, OnDestroy {
       contactRelation: new FormControl(),
       contactPhone: new FormControl(),
     });
-    console.log(this.BsModalRef);
-
-      this.BsModalRef = this.modalService.show(
-      'template',
-      Object.assign({}, { class: 'gray modal-lg' })
-    );
-
     
   }
   sendFormDate(){
@@ -78,7 +75,7 @@ export class AddPatientComponent implements OnInit, OnDestroy {
   }
 
   addPatientCancelled(){
-    console.log('cancel',this.BsModalRef);
     this.BsModalRef?.hide();
+    this.router.navigate(['/patients']);
   }
 }
