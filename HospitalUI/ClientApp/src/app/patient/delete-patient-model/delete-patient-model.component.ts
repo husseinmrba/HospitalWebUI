@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subject, takeUntil } from 'rxjs';
-import { DeletePatientComponent } from '../delete-patient/delete-patient.component';
+import { DeletePatientComponent } from './delete-patient/delete-patient.component';
 
 @Component({
   selector: 'app-delete-patient-model',

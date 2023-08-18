@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken, Optional } from '@angular/core';
-import { PatientForCreate } from 'src/app/patient/add-patient/patientForCreate';
+import { PatientForCreate } from 'src/app/patient/add-update-patient-model/add-patient/patientForCreate';
 import { IPatientCommands } from 'src/app/interfaces/patients/ipatient-commands';
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';

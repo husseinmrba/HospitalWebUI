@@ -7,7 +7,7 @@ import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
 import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
-import { AddPatientComponent } from '../add-patient/add-patient.component';
+import { AddPatientComponent } from '../add-update-patient-model/add-patient/add-patient.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientsDataService } from '../services/patients-data/patients-data.service';
 

@@ -12,7 +12,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { SharedModule } from './shared/shared.module';
 import { PatientModule } from './patient/patient.module';
-import { AddPatientComponent } from './patient/add-patient/add-patient.component';
+import { AddPatientComponent } from './patient/add-update-patient-model/add-patient/add-patient.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({

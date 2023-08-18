@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subject, takeUntil } from 'rxjs';
-import { AddPatientComponent } from '../add-patient/add-patient.component';
+import { AddPatientComponent } from './add-patient/add-patient.component';
 
 @Component({
   selector: 'app-add-update-patient-model',

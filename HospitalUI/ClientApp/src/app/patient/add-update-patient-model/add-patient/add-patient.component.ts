@@ -1,14 +1,14 @@
 import { AfterViewInit, Component, Inject, Input, OnDestroy, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { IPatientCommands } from '../../interfaces/patients/ipatient-commands';
+import { IPatientCommands } from '../../../interfaces/patients/ipatient-commands';
 import { PatientForCreate } from './patientForCreate';
 import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
-import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
+import { PatientCommandsService } from '../../services/patient-commands/patient-commands.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
-import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
-import { PatientsDataService } from '../services/patients-data/patients-data.service';
+import { PatientQueriesService } from '../../services/patient-queries/patient-queries.service';
+import { PatientsDataService } from '../../services/patients-data/patients-data.service';
 import { IPatient } from 'src/app/interfaces/patients/ipatient';
 import { JsonPatchService } from 'src/app/services/json-patch/json-patch.service';
 

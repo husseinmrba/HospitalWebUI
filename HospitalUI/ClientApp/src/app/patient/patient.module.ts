@@ -10,10 +10,10 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HttpClientModule } from '@angular/common/http';
 import { PatientsListComponent } from './patients-list/patients-list.component';
-import { AddPatientComponent } from './add-patient/add-patient.component';
+import { AddPatientComponent } from './add-update-patient-model/add-patient/add-patient.component';
 import { AddUpdatePatientModelComponent } from './add-update-patient-model/add-update-patient-model.component';
 import { BrowserModule } from '@angular/platform-browser';
-import { DeletePatientComponent } from './delete-patient/delete-patient.component';
+import { DeletePatientComponent } from './delete-patient-model/delete-patient/delete-patient.component';
 import { DeletePatientModelComponent } from './delete-patient-model/delete-patient-model.component';
 
 

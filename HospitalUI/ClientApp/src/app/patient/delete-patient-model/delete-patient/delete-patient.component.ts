@@ -2,8 +2,8 @@ import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { Subscription } from 'rxjs';
 import { IPatientCommands } from 'src/app/interfaces/patients/ipatient-commands';
-import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
-import { PatientsDataService } from '../services/patients-data/patients-data.service';
+import { PatientCommandsService } from '../../services/patient-commands/patient-commands.service';
+import { PatientsDataService } from '../../services/patients-data/patients-data.service';
 import { Router } from '@angular/router';
 
 @Component({
