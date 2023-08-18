@@ -16,3 +16,12 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+.navbar a {
+  transition: background-color 0.3s, border-radius 0.3s;
+  padding: 10px 15px;
+}
+
+.navbar a:hover {
+  background-color: lightgray;
+  border-radius: 10px;
+}
