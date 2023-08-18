@@ -5,7 +5,7 @@ import { PatientForCreate } from './patientForCreate';
 import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PatientsListComponent } from '../patients-list/patients-list.component';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
 import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
@@ -17,10 +17,16 @@ import { PatientsDataService } from '../patients-data/patients-data.service';
   styleUrls: ['./add-patient.component.css']
 })
 export class AddPatientComponent implements OnInit, OnDestroy  {
-  sub!: Subscription;
+  subToAddPatient!: Subscription;
+  subToGetPatient!: Subscription;
 
   addPatientForm!: FormGroup;
   
+  isAddOperation: boolean = true;
+  OperationType: string = 'Add';
+  patientId: string = '';
+
+
   private _patientCommands! : IPatientCommands;
   private _patientQueries! : IPatientQueries;
 
@@ -29,17 +35,20 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
               private BsModalRef:BsModalRef,
               private modalService:BsModalService,
               private router: Router,
+              private route: ActivatedRoute,
               private patientsDataService:PatientsDataService,
               ) { 
 
     this._patientCommands = patientCommands;
     this._patientQueries = patientQueries;
-
-  }
+}
 
   ngOnDestroy(): void {
-    if (!!this.sub)
-      this.sub.unsubscribe();
+    if (!!this.subToAddPatient)
+      this.subToAddPatient.unsubscribe();
+
+    if (!!this.subToGetPatient)
+      this.subToGetPatient.unsubscribe();
   }
 
 
@@ -65,29 +74,67 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
       contactRelation: new FormControl(),
       contactPhone: new FormControl(),
     });
-    
+
+    // If the process is an update, we will fetch the patient data to be assigned to a form value 
+    const currentUrl = this.router.url;
+    const operationStart = currentUrl.indexOf('(operation:');
+    const operationType = currentUrl.substring(operationStart);
+
+    if(operationType.includes('update')){
+
+      this.OperationType ='Update'
+      this.isAddOperation = false; 
+      const startIndexOfPatientId = operationType.indexOf('/');
+      const endIndexOfPatientId = operationType.indexOf(')');
+      this.patientId = operationType.substring(startIndexOfPatientId + 1, endIndexOfPatientId);
+
+      if (!!this.subToGetPatient)
+          this.subToGetPatient.unsubscribe();
+
+      this.subToGetPatient = this._patientQueries.getPatientById(this.patientId).subscribe( result => {
+        console.log(result);
+        var patientInfo = {
+          ...result,
+          birthdate: new Date(result.birthdate),
+          firstVisitDate: new Date(result.firstVisitDate)
+        }
+
+        this.addPatientForm.patchValue(patientInfo);
+      },
+      error => console.log(error));
+    }
+      
   }
+
   sendFormDate(){
-    if (!!this.sub)
-      this.sub.unsubscribe();
+    let patientInfoForm = this.addPatientForm.value as PatientForCreate;
 
-    let newPatient = this.addPatientForm.value as PatientForCreate;
+    if (this.isAddOperation) {
+      
+      if (!!this.subToAddPatient)
+          this.subToAddPatient.unsubscribe();
 
-    this.sub = this._patientCommands.addPatient(newPatient).subscribe(id => {
+      this.subToAddPatient = this._patientCommands.addPatient(patientInfoForm).subscribe(id => {
 
       console.log('patient created',id);
       let patientInfo = {
-        ...newPatient,
+        ...patientInfoForm,
         id: id,
         recordCreationDate: Date.now()
       };
 
       this.patientsDataService.addDataToTable(patientInfo);
       this.addPatientForm.reset();
-      this.addPatientCancelled();
     },
     error => console.log(error));
-  }
+    }
+    else{
+        this._patientCommands.patchPatient(patientInfoForm).subscribe(() => {
+          console.log("updated done");
+        })
+    }
+    this.addPatientCancelled();
+ }
 
   addPatientCancelled(){
     this.BsModalRef?.hide();

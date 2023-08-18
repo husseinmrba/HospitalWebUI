@@ -41,9 +41,9 @@ namespace Application.Patients.Commands.UpdatePatient
 
             request.PatchDocument?.ApplyTo(patientTpPatch);
 
-            var patientUpdated = _mapper.Map<Patient>(patientTpPatch);
+            _mapper.Map(patientTpPatch, patient);
 
-            _context.Patients.Update(patientUpdated);
+            _context.Patients.Update(patient);
 
             await _context.SaveChangesAsync();
         }

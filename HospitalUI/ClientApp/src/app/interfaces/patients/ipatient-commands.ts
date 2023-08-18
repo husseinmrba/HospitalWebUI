@@ -5,4 +5,6 @@ export interface IPatientCommands{
     addPatient(command: PatientForCreate): Observable<string>
 
     deletePatient(patientId: string): Observable<void>
+
+    patchPatient(data: any): Observable<void>
 }

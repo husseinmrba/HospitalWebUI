@@ -29,6 +29,7 @@ import { BrowserModule } from '@angular/platform-browser';
     RouterModule.forChild([
       { path: '', component: PatientsListComponent},
       { path: 'add', component: AddUpdatePatientModelComponent, outlet:'operation'},
+      { path: 'update/:id', component: AddUpdatePatientModelComponent, outlet:'operation'},
     ]),
     
     PaginationModule.forRoot(),

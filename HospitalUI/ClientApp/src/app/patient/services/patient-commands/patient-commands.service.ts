@@ -20,6 +20,13 @@ export class PatientCommandsService implements IPatientCommands {
     this._baseUrl = baseUrl !== undefined && baseUrl !== null ? baseUrl : "";
   }
 
+  patchPatient(data: any): Observable<void> {
+    let url = this._baseUrl + "/api/Patients";
+    url = url.replace(/[?&]$/, "");
+
+    return this._http.patch<void>(url,data);
+  }
+
   deletePatient(patientId: string): Observable<void> {
     let url = this._baseUrl + "/api/Patients/{id}";
     

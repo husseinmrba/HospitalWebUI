@@ -109,7 +109,10 @@ export class PatientsListComponent implements OnInit, OnDestroy {
         },
         error => console.log(error));
   }
-
+  updatePatient(id: string){
+    this.router.navigate(['/patients', { outlets: { operation: ['update', id] } }]);
+  }
+  
   onChangePageSize(event: any){
     this.pageSize = event.target.value;
   }

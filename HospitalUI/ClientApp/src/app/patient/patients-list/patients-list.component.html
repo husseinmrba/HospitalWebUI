@@ -62,11 +62,12 @@
                         <tr>
                             <th>#</th>
                             <th>Record creation</th>
-                            <th>Delete</th>
+                            <th>Actions</th>
                             <th>Name</th>
                             <th>File No</th>
                             <th>Gender</th>
                             <th>Natinality</th>
+                            <th>Birthdate</th>
                             <th>Phone number</th>
                             <th>Email</th>
                             <th>City</th>
@@ -85,12 +86,14 @@
                             <td>{{i+1}}</td>
                             <td>{{patient.recordCreationDate | date:'dd-MM-yyyy'}}</td>
                             <td>
-                                <i class="fa fa-trash fa-lg delete-icon" (click)="deletePatient(patient.id, patient.name)"></i>
+                                <i class="fa fa-trash fa-lg icon" (click)="deletePatient(patient.id, patient.name)"></i>
+                                <i class="fa fa-pencil fa-lg icon" (click)="updatePatient(patient.id)"></i>
                             </td>
                             <td>{{patient.name}}</td>
                             <td>{{patient.fileNo}}</td>
                             <td>{{patient.gender?'Female':'Male'}}</td>
                             <td>{{patient.natinality}}</td>
+                            <td>{{patient.birthdate | date:'dd-MM-yyyy'}}</td>
                             <td>{{patient.phoneNumber}}</td>
                             <td>{{patient.email}}</td>
                             <td>{{patient.city}}</td>
@@ -100,7 +103,7 @@
                             <td>{{patient.contactPerson}}</td>
                             <td>{{patient.contactRelation}}</td>
                             <td>{{patient.contactPhone}}</td>
-                            <td>{{patient.firstVisitDate| date:'dd-MM-yyyy'}}</td>
+                            <td>{{patient.firstVisitDate | date:'dd-MM-yyyy'}}</td>
                             
                         </tr>
                     </tbody>
