@@ -6,10 +6,11 @@ import { Subscription } from 'rxjs';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
 import { ActivatedRoute, Route, Router } from '@angular/router';
-import { PatientsListComponent } from '../patients-list/patients-list.component';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
 import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
 import { PatientsDataService } from '../patients-data/patients-data.service';
+import { IPatient } from 'src/app/interfaces/patients/ipatient';
+import { JsonPatchService } from 'src/app/services/json-patch/json-patch.service';
 
 @Component({
   selector: 'app-add-patient',
@@ -25,7 +26,7 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
   isAddOperation: boolean = true;
   OperationType: string = 'Add';
   patientId: string = '';
-
+  patientInfo!: IPatient;
 
   private _patientCommands! : IPatientCommands;
   private _patientQueries! : IPatientQueries;
@@ -37,7 +38,7 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
               private router: Router,
               private route: ActivatedRoute,
               private patientsDataService:PatientsDataService,
-              ) { 
+              private jsonPatchService: JsonPatchService,) { 
 
     this._patientCommands = patientCommands;
     this._patientQueries = patientQueries;
@@ -92,14 +93,13 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
           this.subToGetPatient.unsubscribe();
 
       this.subToGetPatient = this._patientQueries.getPatientById(this.patientId).subscribe( result => {
-        console.log(result);
-        var patientInfo = {
+        this.patientInfo = {
           ...result,
           birthdate: new Date(result.birthdate),
           firstVisitDate: new Date(result.firstVisitDate)
         }
 
-        this.addPatientForm.patchValue(patientInfo);
+        this.addPatientForm.patchValue(this.patientInfo);
       },
       error => console.log(error));
     }
@@ -109,7 +109,7 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
   sendFormDate(){
     let patientInfoForm = this.addPatientForm.value as PatientForCreate;
 
-    if (this.isAddOperation) {
+    if (this.isAddOperation) { // operation is add
       
       if (!!this.subToAddPatient)
           this.subToAddPatient.unsubscribe();
@@ -123,13 +123,23 @@ export class AddPatientComponent implements OnInit, OnDestroy  {
         recordCreationDate: Date.now()
       };
 
-      this.patientsDataService.addDataToTable(patientInfo);
+      this.patientsDataService.addPatientToTableData(patientInfo);
       this.addPatientForm.reset();
     },
     error => console.log(error));
     }
-    else{
-        this._patientCommands.patchPatient(patientInfoForm).subscribe(() => {
+
+    else{ // operation is update
+        let patchPatient = this.jsonPatchService.applyPatch(this.patientInfo, patientInfoForm);
+
+        this._patientCommands.patchPatient(patchPatient[0]).subscribe(() => {
+
+          let patientInfoUpdated  = {
+            ...patientInfoForm,
+            id: this.patientInfo.id,
+          };
+          
+          this.patientsDataService.updatePatientInTableData(patientInfoUpdated);
           console.log("updated done");
         })
     }

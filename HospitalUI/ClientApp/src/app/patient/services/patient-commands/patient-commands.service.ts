@@ -13,7 +13,6 @@ export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 export class PatientCommandsService implements IPatientCommands {
   private _http: HttpClient;
   private _baseUrl: string;
-  protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
 
   constructor(@Inject(HttpClient) http: HttpClient, @Optional() @Inject(API_BASE_URL) baseUrl?: string) {
     this._http = http;
