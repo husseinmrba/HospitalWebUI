@@ -31,7 +31,9 @@ namespace HospitalUI.Controllers
         [HttpPost]
         public async Task<ActionResult<Guid>> CreatePatient(CreatePatientCommand command)
         {
-            return await Mediator.Send(command);
+            var patientId = await Mediator.Send(command);
+
+            return CreatedAtRoute("GetPatient", new { Id = patientId }, patientId);
         }
 
         [HttpDelete("{patientId}")]
