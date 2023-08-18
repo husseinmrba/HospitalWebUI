@@ -8,7 +8,7 @@ import { PatientCommandsService } from '../services/patient-commands/patient-com
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
 import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
-import { PatientsDataService } from '../patients-data/patients-data.service';
+import { PatientsDataService } from '../services/patients-data/patients-data.service';
 import { IPatient } from 'src/app/interfaces/patients/ipatient';
 import { JsonPatchService } from 'src/app/services/json-patch/json-patch.service';
 

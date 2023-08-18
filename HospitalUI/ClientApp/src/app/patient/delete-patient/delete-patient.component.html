@@ -1,0 +1,23 @@
+<div>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Delete Patient</h4>
+        <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="deletePatientCanceled()">
+            <span aria-hidden="true" class="visually-hidden">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <p>All patient data will be permanently deleted.</p>
+    </div>
+    <div class="modal-footer clearfix">
+        <div class="float-end">
+            <div class="input-group">
+                <button type="submit" class="btn btn-secondary" (click)="deletePatientCanceled()">
+                    Cancel
+                </button>
+                <button type="button" class="btn btn-danger" (click)="deletePatientConfirmed()">
+                    Delete
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

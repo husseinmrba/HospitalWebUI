@@ -9,7 +9,7 @@ import { PatientQueriesService } from '../services/patient-queries/patient-queri
 import { PatientCommandsService } from '../services/patient-commands/patient-commands.service';
 import { AddPatientComponent } from '../add-patient/add-patient.component';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PatientsDataService } from '../patients-data/patients-data.service';
+import { PatientsDataService } from '../services/patients-data/patients-data.service';
 
 @Component({
   selector: 'app-patients-list',
@@ -22,7 +22,6 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   currentDialog!: BsModalRef;
 
   subAddPatient!: Subscription; 
-  subDeletePatient!: Subscription; 
 
   patientsWithPagination = { } as IPaginatedListOfPatient;
   pageSize: number = 10;
@@ -33,17 +32,15 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   smallnumPages = 0;
 
   private _patientQueries! : IPatientQueries;
-  private _patientCommands! : IPatientCommands;
-
+  
   constructor(@Inject(PatientQueriesService) patientQueries: IPatientQueries,
-              @Inject(PatientCommandsService) patientCommands: IPatientCommands,
               private modalService: BsModalService,
               private route: ActivatedRoute,
               private router: Router,
               private patientsDataService:PatientsDataService) { 
+
     this._patientQueries = patientQueries;
-    this._patientCommands = patientCommands;
-  }
+      }
 
   public get keyWord() : string {
     return this._keyWord;
@@ -62,9 +59,6 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (!!this.subAddPatient)
       this.subAddPatient.unsubscribe();
-
-    if (!!this.subDeletePatient)
-      this.subDeletePatient.unsubscribe();
 
       this.destroy.next(undefined);
   }
@@ -98,19 +92,11 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this.getPatients();
   }
 
-  deletePatient(patientId: string, patientName: string){
-    if (!!this.subDeletePatient)
-      this.subDeletePatient.unsubscribe();
-
-    var deleteConfirmed = confirm(`Are you sure to delete the patient ${patientName}?`)
-    if(deleteConfirmed)
-        this.subDeletePatient = this._patientCommands.deletePatient(patientId).subscribe(()=> {
-            this.patientsWithPagination.items = this.patientsWithPagination.items.filter(i => i.id !== patientId);
-        },
-        error => console.log(error));
+  deletePatient(patientId: string){
+    this.router.navigate(['/patients', { outlets: { operation: ['delete', patientId] } }]);
   }
-  updatePatient(id: string){
-    this.router.navigate(['/patients', { outlets: { operation: ['update', id] } }]);
+  updatePatient(patientId: string){
+    this.router.navigate(['/patients', { outlets: { operation: ['update', patientId] } }]);
   }
   
   onChangePageSize(event: any){

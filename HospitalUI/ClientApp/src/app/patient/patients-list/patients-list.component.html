@@ -86,7 +86,7 @@
                             <td>{{i+1}}</td>
                             <td>{{patient.recordCreationDate | date:'dd-MM-yyyy'}}</td>
                             <td>
-                                <i class="fa fa-trash fa-lg icon" (click)="deletePatient(patient.id, patient.name)"></i>
+                                <i class="fa fa-trash fa-lg icon" (click)="deletePatient(patient.id)"></i>
                                 <i class="fa fa-pencil fa-lg icon" (click)="updatePatient(patient.id)"></i>
                             </td>
                             <td>{{patient.name}}</td>

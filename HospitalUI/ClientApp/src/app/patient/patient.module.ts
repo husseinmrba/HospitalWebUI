@@ -13,6 +13,8 @@ import { PatientsListComponent } from './patients-list/patients-list.component';
 import { AddPatientComponent } from './add-patient/add-patient.component';
 import { AddUpdatePatientModelComponent } from './add-update-patient-model/add-update-patient-model.component';
 import { BrowserModule } from '@angular/platform-browser';
+import { DeletePatientComponent } from './delete-patient/delete-patient.component';
+import { DeletePatientModelComponent } from './delete-patient-model/delete-patient-model.component';
 
 
 
@@ -21,6 +23,8 @@ import { BrowserModule } from '@angular/platform-browser';
     PatientsListComponent,
     AddPatientComponent,
     AddUpdatePatientModelComponent,
+    DeletePatientComponent,
+    DeletePatientModelComponent,
 
   ],
   imports: [
@@ -30,6 +34,7 @@ import { BrowserModule } from '@angular/platform-browser';
       { path: '', component: PatientsListComponent},
       { path: 'add', component: AddUpdatePatientModelComponent, outlet:'operation'},
       { path: 'update/:id', component: AddUpdatePatientModelComponent, outlet:'operation'},
+      { path: 'delete/:id', component: DeletePatientModelComponent, outlet:'operation'},
     ]),
     
     PaginationModule.forRoot(),
@@ -41,7 +46,8 @@ import { BrowserModule } from '@angular/platform-browser';
     // SharedModule,
   ],
   entryComponents: [
-    AddUpdatePatientModelComponent
+    AddUpdatePatientModelComponent,
+    DeletePatientModelComponent
   ],
 })
 export class PatientModule { }
