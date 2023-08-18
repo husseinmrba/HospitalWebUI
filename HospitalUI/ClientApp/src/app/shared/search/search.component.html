@@ -1,0 +1,32 @@
+<div class="row">
+    <div class="col-md-3">
+        <select class="form-select"
+                aria-label="Choose to search by"
+                (change)="saveSelectedValue($event)">
+            <option value="0"disabled  selected>Choose search by</option>
+            <option value="1">Name</option>
+            <option value="2">File-No</option>
+            <option value="3">Phone Number</option>
+        </select>
+    </div>
+    <div class="col-md-2">&nbsp;</div>
+    <div class="col-md-7">
+        <div class="input-group mb-3">
+            <input
+              type="Search"
+              class="form-control rounded-except-right"
+              placeholder="Search"
+              aria-label="Search"
+              aria-describedby="search-addon"
+              name="the_word_to_be_searched_for"
+              [(ngModel)]="keyWord"
+              (keyup.enter)="onSearch()"
+            />
+            <button class="btn btn-primary rounded-except-left"
+                    type="submit"
+                    (click)="onSearch()">
+               Search
+            </button>
+        </div>
+    </div>
+</div>
