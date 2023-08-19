@@ -17,6 +17,8 @@ namespace Infrastructure
 
             services.AddScoped<IApplicationDBContext>(provider => provider.GetRequiredService<ApplicationDBContext>());
 
+            services.AddScoped<ApplicationDBContextInitialiser>();
+
             return services;
         }
     }
