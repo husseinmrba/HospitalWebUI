@@ -12,27 +12,31 @@ namespace Application.Patients.Commands.CreatePatient
         public CreatePatientCommandValidator()
         {
             RuleFor(p => p.Name)
-                .MaximumLength(30)
                 .NotEmpty()
+                .MaximumLength(50)
                 .NotNull();
 
             RuleFor(p => p.FileNo)
-                .Must(BeAnInteger);
+                .NotEmpty()
+                .GreaterThan(0);
 
             RuleFor(p => p.CitizenId)
-                .MaximumLength(30)
                 .NotEmpty()
-                .NotNull();
+                .NotNull()
+                .MaximumLength(30);
 
             RuleFor(p => p.Birthdate)
                 .NotEmpty()
                 .NotNull()
-                .Must(BeAnDate);
+                .LessThan(DateTime.Now);
+
+            RuleFor(p => p.Gender)
+                .NotNull();
 
             RuleFor(p => p.Natinality)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(40);
 
             RuleFor(p => p.PhoneNumber)
                 .NotEmpty()
@@ -47,37 +51,35 @@ namespace Application.Patients.Commands.CreatePatient
             RuleFor(p => p.Country)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(50);
 
             RuleFor(p => p.City)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(50);
 
             RuleFor(p => p.Street)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(100);
 
             RuleFor(p => p.Address1)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(100);
 
             RuleFor(p => p.Address2)
-                .NotEmpty()
-                .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(100);
 
             RuleFor(p => p.ContactPerson)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(100);
 
             RuleFor(p => p.ContactRelation)
                 .NotEmpty()
                 .NotNull()
-                .MaximumLength(20);
+                .MaximumLength(50);
 
             RuleFor(p => p.ContactPhone)
                 .NotEmpty()
@@ -87,16 +89,7 @@ namespace Application.Patients.Commands.CreatePatient
             RuleFor(p => p.FirstVisitDate)
                 .NotEmpty()
                 .NotNull()
-                .Must(BeAnDate);
-        }
-
-        private bool BeAnInteger(int number)
-        {
-            return int.TryParse(number.ToString(), out _);
-        }
-        private bool BeAnDate(DateTime number)
-        {
-            return DateTime.TryParse(number.ToString(), out _);
+                .LessThan(DateTime.Now);
         }
     }
 }
