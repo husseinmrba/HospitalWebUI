@@ -12,7 +12,6 @@ import { PatientsListComponent } from './patients-list/patients-list.component';
 import { AddUpdatePatientModelComponent } from './add-update-patient-model/add-update-patient-model.component';
 import { DeletePatientComponent } from './delete-patient-model/delete-patient/delete-patient.component';
 import { DeletePatientModelComponent } from './delete-patient-model/delete-patient-model.component';
-import { SearchComponent } from '../shared/search/search.component';
 import { AddUpdatePatientComponent } from './add-update-patient-model/add-update-patient/add-update-patient.component';
 
 
@@ -24,25 +23,16 @@ import { AddUpdatePatientComponent } from './add-update-patient-model/add-update
     AddUpdatePatientModelComponent,
     DeletePatientComponent,
     DeletePatientModelComponent,
-    SearchComponent
 
   ],
   imports: [
-    HttpClientModule,
     RouterModule.forChild([
       { path: '', component: PatientsListComponent},
       { path: 'add', component: AddUpdatePatientModelComponent, outlet:'operation'},
       { path: 'update/:id', component: AddUpdatePatientModelComponent, outlet:'operation'},
       { path: 'delete/:id', component: DeletePatientModelComponent, outlet:'operation'},
     ]),
-    
-    PaginationModule.forRoot(),
-    BsDatepickerModule.forRoot(),
-    ModalModule.forRoot(),
-    ReactiveFormsModule,
-    FormsModule,
-    CommonModule,
-    // SharedModule,
+    SharedModule,
   ],
   entryComponents: [
     AddUpdatePatientModelComponent,
