@@ -37,7 +37,7 @@ namespace Application.Patients.Commands.UpdatePatient
             {
                 if (operation.path == "/name" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue))
                     {
                         context.AddFailure("Name cannot be empty.");
@@ -56,7 +56,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/citizenId" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue))
                     {
                         context.AddFailure("CitizenId cannot be empty.");
@@ -86,7 +86,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/natinality" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 40)
                     {
                         context.AddFailure("Natinality must be between 1 and 40 characters.");
@@ -94,7 +94,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/phoneNumber" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 20)
                     {
                         context.AddFailure("PhoneNumber must be between 1 and 20 characters.");
@@ -102,7 +102,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/email" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || !IsValidEmail(newValue))
                     {
                         context.AddFailure("Invalid Email format.");
@@ -110,7 +110,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/country" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 50)
                     {
                         context.AddFailure("Country must be between 1 and 50 characters.");
@@ -118,7 +118,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/city" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 50)
                     {
                         context.AddFailure("City must be between 1 and 50 characters.");
@@ -126,7 +126,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/street" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 100)
                     {
                         context.AddFailure("Street must be between 1 and 100 characters.");
@@ -134,7 +134,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/address1" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 100)
                     {
                         context.AddFailure("Address1 must be between 1 and 100 characters.");
@@ -142,7 +142,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/address2" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (!string.IsNullOrEmpty(newValue) && newValue.Length > 100)
                     {
                         context.AddFailure("Address2 cannot be longer than 100 characters.");
@@ -150,7 +150,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/contactPerson" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 100)
                     {
                         context.AddFailure("ContactPerson must be between 1 and 100 characters.");
@@ -158,7 +158,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/contactRelation" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 50)
                     {
                         context.AddFailure("ContactRelation must be between 1 and 50 characters.");
@@ -166,7 +166,7 @@ namespace Application.Patients.Commands.UpdatePatient
                 }
                 else if (operation.path == "/contactPhone" && operation.op == "replace")
                 {
-                    string newValue = operation.value?.ToString();
+                    string? newValue = operation.value?.ToString();
                     if (string.IsNullOrEmpty(newValue) || newValue.Length > 20)
                     {
                         context.AddFailure("ContactPhone must be between 1 and 20 characters.");
