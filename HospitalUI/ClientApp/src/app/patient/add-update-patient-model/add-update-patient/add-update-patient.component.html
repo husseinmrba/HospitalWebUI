@@ -1,268 +1,273 @@
 <div>
   <div class="modal-header">
-    <h4 class="modal-title pull-left">Patient Add</h4>
+    <h4 class="modal-title pull-left">{{isAddOperation?'Add Patient':'Update Patient'}}</h4>
     <button type="button" class="close btn-close pull-right" aria-label="Close" (click)="addPatientCancelled()">
       <span aria-hidden="true" class="visually-hidden">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-      <div class="row">
-          <form (ngSubmit)="sendFormDate()" [formGroup]="addPatientForm">
-            <div class="row">
-                  <div class="col-md-1">&nbsp;</div>
-                  <div class="col-md-5">
-                      <div class="mb-3">
-                          <div class="input-group">
-                              <span class="input-group-text">Name</span>
-                              <input type="text" class="form-control" required maxlength="50" formControlName="name" placeholder="Full name" aria-label="full-name"> 
-                          </div>
-                          <span class="text-danger" *ngIf="isRequiredError('name') &&
+    <div class="row">
+      <form (ngSubmit)="sendFormDate()" [formGroup]="addOrUpdatePatientForm">
+        <div class="row">
+          <div class="col-md-1">&nbsp;</div>
+          <div class="col-md-5">
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Name</span>
+                <input type="text" class="form-control" required maxlength="50" formControlName="name"
+                  placeholder="Full name" aria-label="full-name">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('name') &&
                                                           (isDirty('name') || isTouched('name'))">
 
-                                                Name is required
-                          </span>
-                      </div>
-  
-                      <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text">File-No</span>
-                          <input type="number" class="form-control" required formControlName="fileNo" placeholder="file-no" aria-label="file-no" >
-                        </div>
-                        <h6 class="text-danger" *ngIf="isRequiredError('fileNo') &&
+                Name is required
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">File-No</span>
+                <input type="number" class="form-control" required formControlName="fileNo" placeholder="file-no"
+                  aria-label="file-no">
+              </div>
+              <h6 class="text-danger" *ngIf="isRequiredError('fileNo') &&
                                                           (isDirty('fileNo') || isTouched('fileNo'))">
 
-                                                File-No is required
-                        </h6>
-                        <h6 class="text-danger" *ngIf="isGreaterThanZero('fileNo')&&
+                File-No is required
+              </h6>
+              <h6 class="text-danger" *ngIf="isGreaterThanZero('fileNo')&&
                                                          isDirty('fileNo')">
-                                                File-No must be greater than zero
-                          </h6>
-                      </div>
-  
-                      <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text">Citizen-Id</span>
-                          <input type="text" class="form-control" required maxlength="30" formControlName="citizenId" placeholder="citizen-id" aria-label="citizen-id">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('citizenId') &&
+                File-No must be greater than zero
+              </h6>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Citizen-Id</span>
+                <input type="text" class="form-control" required maxlength="30" formControlName="citizenId"
+                  placeholder="citizen-id" aria-label="citizen-id">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('citizenId') &&
                                                           (isDirty('citizenId') || isTouched('citizenId'))">
 
-                                                Citizen-Id is required
-                        </span>
-                      </div>
-  
-                        <div class="input-group mb-3">
-                        <div class="input-group">
-                            <span class="input-group-text">Birthdate</span>
-                            <input type="date"
-                                  formControlName="birthdate"
-                                  required date
-                                  placeholder="birthdate"
-                                  class="form-control"
-                                />
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('birthdate') &&
+                Citizen-Id is required
+              </span>
+            </div>
+
+            <div class="input-group mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Birthdate</span>
+                <input type="date" formControlName="birthdate" required date placeholder="birthdate"
+                  class="form-control" />
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('birthdate') &&
                                                           (isDirty('birthdate') || isTouched('birthdate'))">
 
-                                                Birthdate is required
-                        </span>
-                        <span class="text-danger" *ngIf="isInvalidDate('birthdate')">
+                Birthdate is required
+              </span>
+              <span class="text-danger" *ngIf="isInvalidDate('birthdate')">
 
-                                                      Birthdate must be less than the current date
-                        </span>
-                      </div>
-  
-                        <div class="mb-3">
-                          <div class="input-group">
-                              <span class="input-group-text" >First visit date</span>
-                              <input type="date"
-                                    formControlName="firstVisitDate"
-                                    required
-                                    placeholder="First visit date"
-                                    class="form-control"
-                                  />
-                          </div>
-                          <span class="text-danger" *ngIf="isRequiredError('firstVisitDate') &&
+                Birthdate must be less than the current date
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">First visit date</span>
+                <input type="date" formControlName="firstVisitDate" required placeholder="First visit date"
+                  class="form-control" />
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('firstVisitDate') &&
                                                           (isDirty('firstVisitDate') || isTouched('firstVisitDate'))">
 
-                                          First visit is required
-                         </span>
-                         <span class="text-danger" *ngIf="isInvalidDate('firstVisitDate')">
+                First visit is required
+              </span>
+              <span class="text-danger" *ngIf="isInvalidDate('firstVisitDate')">
 
-                                       First visit must be less than the current date
-                        </span> 
-                      </div>
-  
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Natinality</span>
-                          <input type="text" class="form-control" formControlName="natinality" required maxlength="40" placeholder="natinality" aria-label="natinality">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('natinality') &&
+                First visit must be less than the current date
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Natinality</span>
+                <input type="text" class="form-control" formControlName="natinality" required maxlength="40"
+                  placeholder="natinality" aria-label="natinality">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('natinality') &&
                                                           (isDirty('natinality') || isTouched('natinality'))">
 
-                                                  Natinality is required
-                        </span>
-                      </div>
-  
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >PhoneNumber</span>
-                          <input type="text" class="form-control" formControlName="phoneNumber" required maxlength="20" placeholder="phone number" aria-label="phone-number">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('phoneNumber') &&
+                Natinality is required
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">PhoneNumber</span>
+                <input type="text" class="form-control" formControlName="phoneNumber" required maxlength="20"
+                  placeholder="phone number" aria-label="phone-number">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('phoneNumber') &&
                                                           (isDirty('phoneNumber') || isTouched('phoneNumber'))">
 
-                                                  Phone number is required
-                        </span>
-                      </div>
-  
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Email</span>
-                          <input type="text" class="form-control" formControlName="email" required email placeholder="patient@hospital.com" aria-label="email">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('email') &&
+                Phone number is required
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Email</span>
+                <input type="text" class="form-control" formControlName="email" required email
+                  placeholder="patient@hospital.com" aria-label="email">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('email') &&
                                                           (isDirty('email') || isTouched('email'))">
 
-                                                          Email is required
-                        </span>
-                        <span class="text-danger" *ngIf="isEmailError('email') &&
+                Email is required
+              </span>
+              <span class="text-danger" *ngIf="isEmailError('email') &&
                                                         (isDirty('email') && isTouched('email'))">
 
-                                                          Invalid Email format
-                        </span>
-                      </div>
-      
-                          <div class="checkbox-tick input-group">
-                              <span class="input-group-text" >Gender</span>
-                              <span class="input-group-text">
-                                <label class="male" style="margin: 0 auto">
-                                  <input type="radio" formControlName="gender" name="gender" [value]="false"> Male <br>
-                                  <span class="checkmark"></span>
-                                  </label>
-                              </span>
-                              <span class="input-group-text">
-                                <label class="female" style="margin: 0 auto">
-                                  <input type="radio" formControlName="gender" name="gender" [value]="true"> Female <br>
-                                  <span class="checkmark"></span>
-                                  </label>
-                              </span>
-                          </div>
-                  </div>
-      
-                  <div class="col-md-5">
-                    <div class="mb-3">
-                      <div class="input-group">
-                          <span class="input-group-text" id="basic-addon1">Country</span>
-                          <input type="text" class="form-control" formControlName="country" required maxlength="50" placeholder="country" aria-label="country">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('country') &&
+                Invalid Email format
+              </span>
+            </div>
+
+            <div class="checkbox-tick input-group">
+              <span class="input-group-text">Gender</span>
+              <span class="input-group-text">
+                <label class="male" style="margin: 0 auto">
+                  <input type="radio" formControlName="gender" name="gender" [value]="false"> Male <br>
+                  <span class="checkmark"></span>
+                </label>
+              </span>
+              <span class="input-group-text">
+                <label class="female" style="margin: 0 auto">
+                  <input type="radio" formControlName="gender" name="gender" [value]="true"> Female <br>
+                  <span class="checkmark"></span>
+                </label>
+              </span>
+            </div>
+          </div>
+
+          <div class="col-md-5">
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text" id="basic-addon1">Country</span>
+                <input type="text" class="form-control" formControlName="country" required maxlength="50"
+                  placeholder="country" aria-label="country">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('country') &&
                                                           (isDirty('country') || isTouched('country'))">
 
-                                                          Country is required
-                        </span>
-                     </div>
-                        
-                     <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >City</span>
-                          <input type="text" class="form-control" formControlName="city" required maxlength="50" placeholder="City" aria-label="city">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('city') &&
+                Country is required
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">City</span>
+                <input type="text" class="form-control" formControlName="city" required maxlength="50"
+                  placeholder="City" aria-label="city">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('city') &&
                                                           (isDirty('city') || isTouched('city'))">
 
-                                                          City is required
-                        </span>
-                      </div>
+                City is required
+              </span>
+            </div>
 
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Street</span>
-                          <input type="text" class="form-control" formControlName="street" required maxlength="100" placeholder="Street" aria-label="street">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('street') &&
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Street</span>
+                <input type="text" class="form-control" formControlName="street" required maxlength="100"
+                  placeholder="Street" aria-label="street">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('street') &&
                                                           (isDirty('street') || isTouched('street'))">
 
-                                                          Street is required
-                        </span>
-                      </div>
+                Street is required
+              </span>
+            </div>
 
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Address(1)</span>
-                          <input type="text" class="form-control" formControlName="address1" required maxlength="100" placeholder="First address" aria-label="first-address">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('address1') &&
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Address(1)</span>
+                <input type="text" class="form-control" formControlName="address1" required maxlength="100"
+                  placeholder="First address" aria-label="first-address">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('address1') &&
                                                           (isDirty('address1') || isTouched('address1'))">
 
-                                                          Address1 is required
-                        </span>
-                      </div>
+                Address1 is required
+              </span>
+            </div>
 
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Address(2)</span>
-                          <input type="text" class="form-control" formControlName="address2" maxlength="100" placeholder="Second address" aria-label="second-address">
-                        </div>
-                      </div>
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Address(2)</span>
+                <input type="text" class="form-control" formControlName="address2" maxlength="100"
+                  placeholder="Second address" aria-label="second-address">
+              </div>
+            </div>
 
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Contact person</span>
-                          <input type="text" class="form-control" formControlName="contactPerson" required maxlength="100" placeholder="Contact person" aria-label="contact-person">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('contactPerson') &&
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Contact person</span>
+                <input type="text" class="form-control" formControlName="contactPerson" required maxlength="100"
+                  placeholder="Contact person" aria-label="contact-person">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('contactPerson') &&
                                                           (isDirty('contactPerson') || isTouched('contactPerson'))">
 
-                                                          Contact person is required
-                        </span>
-                      </div>
+                Contact person is required
+              </span>
+            </div>
 
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Contact relation</span>
-                          <input type="text" class="form-control" formControlName="contactRelation" required maxlength="50" placeholder="Contactrelation" aria-label="contact-relation">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('contactRelation') &&
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Contact relation</span>
+                <input type="text" class="form-control" formControlName="contactRelation" required maxlength="50"
+                  placeholder="Contactrelation" aria-label="contact-relation">
+              </div>
+              <span class="text-danger"
+                *ngIf="isRequiredError('contactRelation') &&
                                                           (isDirty('contactRelation') || isTouched('contactRelation'))">
 
-                                                          Contact relation is required
-                        </span>
-                      </div>
-      
-                        <div class="mb-3">
-                        <div class="input-group">
-                          <span class="input-group-text" >Contact phone</span>
-                          <input type="text" class="form-control" formControlName="contactPhone" required maxlength="20" placeholder="Contact phone" aria-label="contact-phone">
-                        </div>
-                        <span class="text-danger" *ngIf="isRequiredError('contactPhone') &&
+                Contact relation is required
+              </span>
+            </div>
+
+            <div class="mb-3">
+              <div class="input-group">
+                <span class="input-group-text">Contact phone</span>
+                <input type="text" class="form-control" formControlName="contactPhone" required maxlength="20"
+                  placeholder="Contact phone" aria-label="contact-phone">
+              </div>
+              <span class="text-danger" *ngIf="isRequiredError('contactPhone') &&
                                                           (isDirty('contactPhone') || isTouched('contactPhone'))">
 
-                                                          Contact phone is required
-                        </span>
-                      </div>
-                    </div>
-                  
-                  <div class="col-md-1">&nbsp;</div>
-              </div>
-            <div class="row">
-              <div class="col-md-5">&nbsp;</div>
-                <div class="col-md-6">
-                    <div class="input-group mb-3 justify-content-end">
-                      <button type="button" class="btn btn-secondary" (click)="addPatientCancelled()">
-                        Cancel
-                      </button>
-                      <button type="submit" class="btn btn-primary">
-                          {{OperationType}}
-                      </button>
-                    </div>
-                </div>
-                <div class="col-md-1">&nbsp;</div>
+                Contact phone is required
+              </span>
             </div>
-          </form>
-      </div> 
+          </div>
+
+          <div class="col-md-1">&nbsp;</div>
+        </div>
+        <div class="row">
+          <div class="col-md-5">&nbsp;</div>
+          <div class="col-md-6">
+            <div class="input-group mb-3 justify-content-end">
+              <button type="button" class="btn btn-secondary" (click)="addPatientCancelled()">
+                Cancel
+              </button>
+              <button type="submit" class="btn btn-primary">
+                {{OperationType}}
+              </button>
+            </div>
+          </div>
+          <div class="col-md-1">&nbsp;</div>
+        </div>
+      </form>
+    </div>
   </div>
 </div>
-        
-

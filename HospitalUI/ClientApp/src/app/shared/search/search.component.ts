@@ -11,10 +11,13 @@ export class SearchComponent implements OnInit {
   private _keyWord: string = '';
   searchBy: string = '';
   @Output() searchClicked: EventEmitter<ISearch> = new EventEmitter<ISearch>();
+
+
   constructor() { }
 
   ngOnInit(): void {
   }
+  
   public get keyWord() : string {
     return this._keyWord;
   }

@@ -1,4 +1,4 @@
-<h3 >Patients List</h3><br/>
+<h3>Patients List</h3><br />
 
 <p *ngIf="!patientsWithPagination"><em>Loading...</em></p>
 
@@ -16,17 +16,15 @@
     </div>
     <div class="card-body">
         <div class="row">
-           <div class="col-sm-2">
+            <div class="col-sm-2">
                 <div class="input-group">
                     <div class="input-group mb-3">
-                          <span class="input-group-text" >Page size:</span>
-                         <input type="number"
-                                class="form-control text-center"
-                                [value]="parameters.pageSize"
-                                (change)="onChangePageSize($event)">
+                        <span class="input-group-text">Page size:</span>
+                        <input type="number" class="form-control text-center" [value]="parameters.pageSize"
+                            (change)="onChangePageSize($event)">
                     </div>
-              </div>
-           </div>
+                </div>
+            </div>
         </div>
         <div class="row">
             <div class="table-responsive text-center" style="white-space: nowrap;">
@@ -34,16 +32,17 @@
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Record creation</th>
-                            <th>Actions</th>
                             <th>Name</th>
                             <th>File No</th>
+                            <th>Citizen Id</th>
                             <th>Gender</th>
                             <th>Natinality</th>
                             <th>Birthdate</th>
                             <th>Phone number</th>
                             <th>Email</th>
+                            <th>Country</th>
                             <th>City</th>
+                            <th>Actions</th>
                             <th>Street</th>
                             <th>First address</th>
                             <th>Second address</th>
@@ -51,25 +50,26 @@
                             <th>Contact relation</th>
                             <th>Contact phone</th>
                             <th>First visit</th>
-                            
+
                         </tr>
                     </thead>
                     <tbody>
                         <tr *ngFor="let patient of patientsWithPagination.items; index as i">
-                            <td>{{i+1}}</td>
-                            <td>{{patient.recordCreationDate | date:'dd-MM-yyyy'}}</td>
-                            <td>
-                                <i class="fa fa-trash fa-lg icon" (click)="deletePatient(patient.id)"></i>
-                                <i class="fa fa-pencil fa-lg icon" (click)="updatePatient(patient.id)"></i>
-                            </td>
+                            <td>{{ i + 1 }}</td>
                             <td>{{patient.name}}</td>
                             <td>{{patient.fileNo}}</td>
+                            <td>{{patient.citizenId}}</td>
                             <td>{{patient.gender?'Female':'Male'}}</td>
                             <td>{{patient.natinality}}</td>
                             <td>{{patient.birthdate | date:'dd-MM-yyyy'}}</td>
                             <td>{{patient.phoneNumber}}</td>
                             <td>{{patient.email}}</td>
+                            <td>{{patient.country}}</td>
                             <td>{{patient.city}}</td>
+                            <td>
+                                <i class="fa fa-trash fa-lg icon" (click)="deletePatient(patient.id)"></i>
+                                <i class="fa fa-pencil fa-lg icon" (click)="updatePatient(patient.id)"></i>
+                            </td>
                             <td>{{patient.street}}</td>
                             <td>{{patient.address1}}</td>
                             <td>{{patient.address2}}</td>
@@ -77,25 +77,20 @@
                             <td>{{patient.contactRelation}}</td>
                             <td>{{patient.contactPhone}}</td>
                             <td>{{patient.firstVisitDate | date:'dd-MM-yyyy'}}</td>
-                            
+
                         </tr>
                     </tbody>
                 </table>
             </div>
-        </div> <br/>
+        </div> <br />
     </div>
 
     <div class="card-footer">
         <div class="row">
             <div class="col-12 d-flex justify-content-center">
-                <pagination [boundaryLinks]="true"
-                            [totalItems]="patientsWithPagination.totalCount"
-                            [(ngModel)]="pageNumber"
-                            [itemsPerPage]="parameters.pageSize"
-                            (numPages)="smallnumPages = $event"
-                            [maxSize]="maxPageSize"
-                            [rotate]="rotate"
-                            (click)="getPatients()">
+                <pagination [boundaryLinks]="true" [totalItems]="patientsWithPagination.totalCount"
+                    [(ngModel)]="pageNumber" [itemsPerPage]="parameters.pageSize" (numPages)="smallnumPages = $event"
+                    [maxSize]="maxPageSize" [rotate]="rotate" (click)="getPatients()">
                 </pagination>
             </div>
         </div>

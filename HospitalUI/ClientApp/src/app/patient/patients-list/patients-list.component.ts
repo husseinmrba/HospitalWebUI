@@ -1,8 +1,8 @@
-import { Component, Inject, OnChanges, OnDestroy, OnInit, SimpleChanges, TemplateRef } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { IPatientQueries } from 'src/app/interfaces/patients/ipatient-queries';
 import { IPaginatedListOfPatient } from '../../interfaces/ipaginated-list-of-patient';
-import { Subject, Subscription } from 'rxjs';
-import { BsModalService, BsModalRef } from 'ngx-bootstrap/modal';
+import { Subscription } from 'rxjs';
+import { BsModalRef } from 'ngx-bootstrap/modal';
 import { PatientQueriesService } from '../services/patient-queries/patient-queries.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { PatientsDataService } from '../services/patients-data/patients-data.service';
@@ -15,9 +15,6 @@ import { ISearch } from 'src/app/shared/search/isearch';
 })
 export class PatientsListComponent implements OnInit, OnDestroy {
 
-  // destroy = new Subject<any>();
-  currentDialog!: BsModalRef;
-
   subGetPatients!: Subscription; 
   subQueryParams!: Subscription; 
   subTableData!: Subscription; 
@@ -25,11 +22,9 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   patientsWithPagination = { } as IPaginatedListOfPatient;
   maxPageSize: number = 10;
   rotate: boolean = false;
+  smallnumPages = 1;
 
-  // pageSize: number = 10;
   private _pageNumber: number = 1;
-  // keyWord: string = '';
-  // searchBy: string = '';
 
   parameters = {
     pageNumber: 1,
@@ -38,7 +33,6 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     keyWord: ''
   };
 
-  smallnumPages = 1;
   private _patientQueries! : IPatientQueries;
   
   constructor(@Inject(PatientQueriesService) patientQueries: IPatientQueries,
@@ -59,16 +53,6 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     this.parameters.pageNumber = v;
   }
 
-
-
-  showAddPatientModal() {
-    this.router.navigate(['/patients', { outlets: { operation: ['add'] } }],{ queryParams: this.parameters });
-  }
-
-  ngOnInit(): void {
-    
-    this.getPatients();
-  }
   getQueryParams(){
     
     this.subQueryParams = this.route.queryParams.subscribe(params => {
@@ -80,17 +64,19 @@ export class PatientsListComponent implements OnInit, OnDestroy {
 
       this.parameters.searchBy = params.searchBy;
       this.parameters.keyWord = params.keyWord;
-      
-      
     }); 
   }
-  ngOnDestroy() {
-    if (!!this.subGetPatients)
-      this.subGetPatients.unsubscribe();
 
+  ngOnInit(): void {
+    
+    this.getPatients();
+  }
+
+  ngOnDestroy() {
+    
+    this.subGetPatients.unsubscribe();
     this.subQueryParams.unsubscribe();
     this.subTableData.unsubscribe();
-    // this.destroy.next(undefined);
   }
 
   getPatients(){
@@ -111,14 +97,13 @@ export class PatientsListComponent implements OnInit, OnDestroy {
 
             this.router.navigate([], {
               queryParams: this.parameters,
-              queryParamsHandling: 'merge', // لدمج الباراميترات مع الباراميترات الحالية
-              relativeTo: this.route // قد تحتاج إلى تحديد المسار النسبي إذا كنت تستخدم routing في Angular
+              queryParamsHandling: 'merge', 
+              relativeTo: this.route
             });
         });
       },
       error => console.log(error)); 
-      
-    
+
   }
 
 
@@ -137,9 +122,14 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   updatePatient(patientId: string){
     this.router.navigate(['/patients', { outlets: { operation: ['update', patientId] } }], { queryParams: this.parameters });
   }
+
+  showAddPatientModal() {
+    this.router.navigate(['/patients', { outlets: { operation: ['add'] } }],{ queryParams: this.parameters });
+  }
   
   onChangePageSize(event: any){
     this.parameters.pageSize = event.target.value;
+    
     if (this.parameters.pageSize > 15) {
       this.parameters.pageSize = 15;
     }

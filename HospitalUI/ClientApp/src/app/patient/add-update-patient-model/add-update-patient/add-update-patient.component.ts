@@ -23,10 +23,10 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
   subToAddOrUpdatePatient!: Subscription;
   subToGetPatient!: Subscription;
 
-  addPatientForm!: FormGroup;
-  
+  addOrUpdatePatientForm!: FormGroup;
   isAddOperation: boolean = true;
   OperationType: string = 'Add';
+
   patientId: string = '';
   patientInfo!: IPatient;
 
@@ -59,7 +59,47 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
   
   ngOnInit(): void {
 
-    this.addPatientForm = new FormGroup({
+    this.initializeFormFields();
+
+    // If the process is an update, we will fetch the patient data to be assigned to a form value 
+    const currentUrl = this.router.url;
+    const operationStart = currentUrl.indexOf('(operation:');
+    const operationType = currentUrl.substring(operationStart);
+
+    if(operationType.includes('update')){ // if operation is update
+
+      this.OperationType ='Update'; // operation is update
+      this.isAddOperation = false; 
+
+      // fetch the patient data to be assigned to a form value 
+      this.getPatientInfo(operationType);
+    }
+      
+  }
+
+  getPatientInfo(operationType: string){
+
+    const startIndexOfPatientId = operationType.indexOf('/');
+    const endIndexOfPatientId = operationType.indexOf(')');
+    this.patientId = operationType.substring(startIndexOfPatientId + 1, endIndexOfPatientId);
+
+    if (!!this.subToGetPatient)
+        this.subToGetPatient.unsubscribe();
+
+    this.subToGetPatient = this._patientQueries.getPatientById(this.patientId).subscribe( result => {
+      this.patientInfo = {
+        ...result,
+        birthdate: new Date(result.birthdate),
+        firstVisitDate: new Date(result.firstVisitDate)
+      }
+
+      this.addOrUpdatePatientForm.patchValue(this.patientInfo);
+    },
+    error => console.log(error));
+  }
+
+  initializeFormFields(){
+    this.addOrUpdatePatientForm = new FormGroup({
       name: new FormControl(),
       fileNo: new FormControl(),
       citizenId: new FormControl(),
@@ -78,45 +118,16 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
       contactRelation: new FormControl(),
       contactPhone: new FormControl(),
     });
-
-    // If the process is an update, we will fetch the patient data to be assigned to a form value 
-    const currentUrl = this.router.url;
-    const operationStart = currentUrl.indexOf('(operation:');
-    const operationType = currentUrl.substring(operationStart);
-
-    if(operationType.includes('update')){
-
-      this.OperationType ='Update'
-      this.isAddOperation = false; 
-      const startIndexOfPatientId = operationType.indexOf('/');
-      const endIndexOfPatientId = operationType.indexOf(')');
-      this.patientId = operationType.substring(startIndexOfPatientId + 1, endIndexOfPatientId);
-
-      if (!!this.subToGetPatient)
-          this.subToGetPatient.unsubscribe();
-
-      this.subToGetPatient = this._patientQueries.getPatientById(this.patientId).subscribe( result => {
-        this.patientInfo = {
-          ...result,
-          birthdate: new Date(result.birthdate),
-          firstVisitDate: new Date(result.firstVisitDate)
-        }
-
-        this.addPatientForm.patchValue(this.patientInfo);
-      },
-      error => console.log(error));
-    }
-      
   }
 
   sendFormDate(){
-    let patientInfoForm = this.addPatientForm.value as PatientForCreate;
+    let patientInfoForm = this.addOrUpdatePatientForm.value as PatientForCreate;
 
     if (!!this.subToAddOrUpdatePatient)
           this.subToAddOrUpdatePatient.unsubscribe();
 
     if (this.isAddOperation) { // operation is add
-
+      // add patient
       this.subToAddOrUpdatePatient = this._patientCommands.addPatient(patientInfoForm).subscribe(id => {
 
       console.log('patient created',id);
@@ -127,12 +138,15 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
       };
 
       this.patientsDataService.addPatientToTableData(patientInfo);
-      this.addPatientForm.reset();
+      this.addOrUpdatePatientForm.reset();
+      this.addPatientCancelled();
     },
     error => console.log(error));
     }
 
     else{ // operation is update
+
+      // update patient
         let patchPatient = this.jsonPatchService.applyPatch(this.patientInfo, patientInfoForm);
 
         this.subToAddOrUpdatePatient = this._patientCommands.patchPatient(patchPatient[0]).subscribe(() => {
@@ -143,10 +157,12 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
               };
           
               this.patientsDataService.updatePatientInTableData(patientInfoUpdated);
+              this.addPatientCancelled();
               console.log("updated done");
-        })
+        },
+        error => console.log(error));
     }
-    this.addPatientCancelled();
+    
  }
 
   addPatientCancelled(){
@@ -157,28 +173,31 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
     this.router.navigate(['/patients'],{ queryParams: params });
   }
 
+
+
+  // validation form
   isDirty(fieldName: string) {
-    return this.addPatientForm.get(fieldName)?.dirty;
+    return this.addOrUpdatePatientForm.get(fieldName)?.dirty;
   }
   isTouched(fieldName: string){
-    return this.addPatientForm.get(fieldName)?.touched;
+    return this.addOrUpdatePatientForm.get(fieldName)?.touched;
   }
   isRequiredError(fieldName: string): boolean {
-    return this.addPatientForm.get(fieldName)?.errors?.['required'];
+    return this.addOrUpdatePatientForm.get(fieldName)?.errors?.['required'];
   }
   isEmailError(fieldName: string): boolean {
-    return this.addPatientForm.get(fieldName)?.errors?.['email'];
+    return this.addOrUpdatePatientForm.get(fieldName)?.errors?.['email'];
   }
   isGreaterThanZero(fieldName: string){
-    const control = this.addPatientForm.get(fieldName) as FormControl;
+    const control = this.addOrUpdatePatientForm.get(fieldName) as FormControl;
     return control.value <= 0;
   }
   isInvalidDate(fieldName: string): boolean {
-    const control = this.addPatientForm.get(fieldName) as FormControl;
+    const control = this.addOrUpdatePatientForm.get(fieldName) as FormControl;
 
     const selectedDate = new Date(control.value);
     const currentDate = new Date();
-    
+
     return (control.invalid && control.dirty && control.touched) || (selectedDate > currentDate);
   }
 }

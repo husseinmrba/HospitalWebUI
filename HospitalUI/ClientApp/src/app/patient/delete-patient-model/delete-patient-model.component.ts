@@ -13,17 +13,13 @@ export class DeletePatientModelComponent implements OnInit,OnDestroy {
 
   destroy = new Subject<any>();
   currentDialog!: any;
-  sub!: Subscription;
   
   constructor(private modalService: BsModalService,
               private route: ActivatedRoute,) { }
 
   ngOnInit(): void {
 
-    if(!!this.sub)
-        this.sub.unsubscribe();
-
-    this.sub = this.route.params.pipe(takeUntil(this.destroy)).subscribe(params => {
+    this.route.params.pipe(takeUntil(this.destroy)).subscribe(params => {
 
       // When router navigates on this component is takes the params and opens up the photo detail modal
       this.currentDialog = this.modalService.show(DeletePatientComponent);
@@ -33,7 +29,6 @@ export class DeletePatientModelComponent implements OnInit,OnDestroy {
 
   ngOnDestroy(): void {
     this.destroy.next(undefined);
-    this.sub.unsubscribe();
   }
 
   

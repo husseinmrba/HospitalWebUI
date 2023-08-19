@@ -1,13 +1,3 @@
-.rounded-except-right {
-    border-radius: 8px 0 0 8px;
-    padding: 7px;
-    display: inline-block;
-}
-.rounded-except-left {
-    border-radius: 0 8px 8px 0; 
-    padding: 6px;
-    display: inline-block;
-}
 .icon {
     transition: box-shadow 0.3s; 
     cursor: pointer;

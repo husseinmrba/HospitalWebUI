@@ -15,6 +15,7 @@ import { Location } from '@angular/common';
 export class DeletePatientComponent implements OnInit, OnDestroy {
 
   @Input() patientId: any;
+
   subDeletePatient!: Subscription; 
 
   private _patientCommands! : IPatientCommands;
@@ -23,7 +24,7 @@ export class DeletePatientComponent implements OnInit, OnDestroy {
               private bsModalRef:BsModalRef,
               private router: Router,
               private patientsDataService: PatientsDataService,
-              private location: Location) {
+              ) {
 
       this._patientCommands = patientCommands;
   }
@@ -37,22 +38,25 @@ export class DeletePatientComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
   }
+
   deletePatientCanceled(){
+
     this.bsModalRef.hide();
     
     const params = this.router.parseUrl(this.router.url).queryParams;
 
     this.router.navigate(['/patients'],{ queryParams: params });
   }
+
   deletePatientConfirmed(){
+
     if (!!this.subDeletePatient)
         this.subDeletePatient.unsubscribe();
 
     this.subDeletePatient = this._patientCommands.deletePatient(this.patientId).subscribe(()=> {
       this.patientsDataService.deletePatientInTableData(this.patientId);
+      this.deletePatientCanceled();
     },
     error => console.log(error));
-
-    this.deletePatientCanceled();
   }
 }
