@@ -151,6 +151,9 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
 
   addPatientCancelled(){
     this.BsModalRef?.hide();
-    this.location.back();
+    
+    const params = this.router.parseUrl(this.router.url).queryParams;
+
+    this.router.navigate(['/patients'],{ queryParams: params });
   }
 }

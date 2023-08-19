@@ -39,7 +39,10 @@ export class DeletePatientComponent implements OnInit, OnDestroy {
   }
   deletePatientCanceled(){
     this.bsModalRef.hide();
-    this.location.back();
+    
+    const params = this.router.parseUrl(this.router.url).queryParams;
+
+    this.router.navigate(['/patients'],{ queryParams: params });
   }
   deletePatientConfirmed(){
     if (!!this.subDeletePatient)
