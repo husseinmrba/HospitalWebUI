@@ -14,10 +14,10 @@ import { JsonPatchService } from 'src/app/services/json-patch/json-patch.service
 
 @Component({
   selector: 'app-add-patient',
-  templateUrl: './add-patient.component.html',
-  styleUrls: ['./add-patient.component.css']
+  templateUrl: './add-update-patient.component.html',
+  styleUrls: ['./add-update-patient.component.css']
 })
-export class AddPatientComponent implements OnInit, OnDestroy  {
+export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
   subToAddPatient!: Subscription;
   subToGetPatient!: Subscription;
 

@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BsModalService } from 'ngx-bootstrap/modal';
 import { Subject, takeUntil } from 'rxjs';
-import { AddPatientComponent } from './add-patient/add-patient.component';
+import { AddUpdatePatientComponent } from './add-update-patient/add-update-patient.component';
 
 @Component({
   selector: 'app-add-update-patient-model',
@@ -25,7 +25,7 @@ export class AddUpdatePatientModelComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy)).subscribe(params => {
 
-      this.currentDialog = this.modalService.show(AddPatientComponent,
+      this.currentDialog = this.modalService.show(AddUpdatePatientComponent,
                                                   Object.assign({}, { class: 'gray modal-lg' })); 
                                                   
     });

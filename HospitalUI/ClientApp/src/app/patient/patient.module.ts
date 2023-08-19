@@ -9,18 +9,18 @@ import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ModalModule } from 'ngx-bootstrap/modal';
 import { HttpClientModule } from '@angular/common/http';
 import { PatientsListComponent } from './patients-list/patients-list.component';
-import { AddPatientComponent } from './add-update-patient-model/add-patient/add-patient.component';
 import { AddUpdatePatientModelComponent } from './add-update-patient-model/add-update-patient-model.component';
 import { DeletePatientComponent } from './delete-patient-model/delete-patient/delete-patient.component';
 import { DeletePatientModelComponent } from './delete-patient-model/delete-patient-model.component';
 import { SearchComponent } from '../shared/search/search.component';
+import { AddUpdatePatientComponent } from './add-update-patient-model/add-update-patient/add-update-patient.component';
 
 
 
 @NgModule({
   declarations: [
     PatientsListComponent,
-    AddPatientComponent,
+    AddUpdatePatientComponent,
     AddUpdatePatientModelComponent,
     DeletePatientComponent,
     DeletePatientModelComponent,

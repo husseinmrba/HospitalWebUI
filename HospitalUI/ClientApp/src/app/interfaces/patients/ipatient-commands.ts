@@ -1,5 +1,5 @@
 import { Observable } from "rxjs";
-import { PatientForCreate } from "src/app/patient/add-update-patient-model/add-patient/patientForCreate";
+import { PatientForCreate } from "src/app/patient/add-update-patient-model/add-update-patient/patientForCreate";
 
 export interface IPatientCommands{
     addPatient(command: PatientForCreate): Observable<string>
