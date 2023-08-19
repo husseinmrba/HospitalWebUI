@@ -19,6 +19,8 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   currentDialog!: BsModalRef;
 
   subGetPatients!: Subscription; 
+  subQueryParams!: Subscription; 
+  subTableData!: Subscription; 
 
   patientsWithPagination = { } as IPaginatedListOfPatient;
   maxPageSize: number = 10;
@@ -60,7 +62,7 @@ export class PatientsListComponent implements OnInit, OnDestroy {
 
 
   showAddPatientModal() {
-    this.router.navigate(['/patients', { outlets: { operation: ['add'] } }]);
+    this.router.navigate(['/patients', { outlets: { operation: ['add'] } }],{ queryParams: this.parameters });
   }
 
   ngOnInit(): void {
@@ -69,9 +71,9 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
   getQueryParams(){
     
-    this.route.queryParams.subscribe(params => {
+    this.subQueryParams = this.route.queryParams.subscribe(params => {
       
-      this._pageNumber = params.pageNumber? params.pageNumber : 1;
+      this.pageNumber = params.pageNumber? params.pageNumber : 1;
       this.parameters.pageSize = params.pageSize? params.pageSize : 10;
       if(this.parameters.pageSize > 15)  
           this.parameters.pageSize = 15;
@@ -86,6 +88,8 @@ export class PatientsListComponent implements OnInit, OnDestroy {
     if (!!this.subGetPatients)
       this.subGetPatients.unsubscribe();
 
+    this.subQueryParams.unsubscribe();
+    this.subTableData.unsubscribe();
     // this.destroy.next(undefined);
   }
 
@@ -101,11 +105,16 @@ export class PatientsListComponent implements OnInit, OnDestroy {
                   this.parameters.keyWord).subscribe((result) => {     
 
         this.patientsDataService.setTableData(result);
-        // this.patientsDataService.getTableData().subscribe(data => {
-        this.patientsWithPagination = result;
+        this.subTableData = this.patientsDataService.getTableData().subscribe(data => {
 
-        this.router.navigate(['/patients'], { queryParams: this.parameters });
-        // });
+            this.patientsWithPagination = data;
+
+            this.router.navigate([], {
+              queryParams: this.parameters,
+              queryParamsHandling: 'merge', // لدمج الباراميترات مع الباراميترات الحالية
+              relativeTo: this.route // قد تحتاج إلى تحديد المسار النسبي إذا كنت تستخدم routing في Angular
+            });
+        });
       },
       error => console.log(error)); 
       
@@ -122,11 +131,11 @@ export class PatientsListComponent implements OnInit, OnDestroy {
   }
 
   deletePatient(patientId: string){
-    this.router.navigate(['/patients', { outlets: { operation: ['delete', patientId] } }]);
+    this.router.navigate(['/patients', { outlets: { operation: ['delete', patientId] } }], { queryParams: this.parameters });
   }
 
   updatePatient(patientId: string){
-    this.router.navigate(['/patients', { outlets: { operation: ['update', patientId] } }]);
+    this.router.navigate(['/patients', { outlets: { operation: ['update', patientId] } }], { queryParams: this.parameters });
   }
   
   onChangePageSize(event: any){

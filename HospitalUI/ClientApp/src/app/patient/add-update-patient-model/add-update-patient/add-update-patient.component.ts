@@ -11,6 +11,7 @@ import { PatientQueriesService } from '../../services/patient-queries/patient-qu
 import { PatientsDataService } from '../../services/patients-data/patients-data.service';
 import { IPatient } from 'src/app/interfaces/patients/ipatient';
 import { JsonPatchService } from 'src/app/services/json-patch/json-patch.service';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-add-patient',
@@ -18,7 +19,8 @@ import { JsonPatchService } from 'src/app/services/json-patch/json-patch.service
   styleUrls: ['./add-update-patient.component.css']
 })
 export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
-  subToAddPatient!: Subscription;
+
+  subToAddOrUpdatePatient!: Subscription;
   subToGetPatient!: Subscription;
 
   addPatientForm!: FormGroup;
@@ -38,15 +40,16 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
               private router: Router,
               private route: ActivatedRoute,
               private patientsDataService:PatientsDataService,
-              private jsonPatchService: JsonPatchService,) { 
+              private jsonPatchService: JsonPatchService,
+              private location: Location) { 
 
     this._patientCommands = patientCommands;
     this._patientQueries = patientQueries;
 }
 
   ngOnDestroy(): void {
-    if (!!this.subToAddPatient)
-      this.subToAddPatient.unsubscribe();
+    if (!!this.subToAddOrUpdatePatient)
+      this.subToAddOrUpdatePatient.unsubscribe();
 
     if (!!this.subToGetPatient)
       this.subToGetPatient.unsubscribe();
@@ -109,12 +112,12 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
   sendFormDate(){
     let patientInfoForm = this.addPatientForm.value as PatientForCreate;
 
-    if (this.isAddOperation) { // operation is add
-      
-      if (!!this.subToAddPatient)
-          this.subToAddPatient.unsubscribe();
+    if (!!this.subToAddOrUpdatePatient)
+          this.subToAddOrUpdatePatient.unsubscribe();
 
-      this.subToAddPatient = this._patientCommands.addPatient(patientInfoForm).subscribe(id => {
+    if (this.isAddOperation) { // operation is add
+
+      this.subToAddOrUpdatePatient = this._patientCommands.addPatient(patientInfoForm).subscribe(id => {
 
       console.log('patient created',id);
       let patientInfo = {
@@ -132,15 +135,15 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
     else{ // operation is update
         let patchPatient = this.jsonPatchService.applyPatch(this.patientInfo, patientInfoForm);
 
-        this._patientCommands.patchPatient(patchPatient[0]).subscribe(() => {
+        this.subToAddOrUpdatePatient = this._patientCommands.patchPatient(patchPatient[0]).subscribe(() => {
 
-          let patientInfoUpdated  = {
-            ...patientInfoForm,
-            id: this.patientInfo.id,
-          };
+              let patientInfoUpdated  = {
+                ...patientInfoForm,
+                id: this.patientInfo.id,
+              };
           
-          this.patientsDataService.updatePatientInTableData(patientInfoUpdated);
-          console.log("updated done");
+              this.patientsDataService.updatePatientInTableData(patientInfoUpdated);
+              console.log("updated done");
         })
     }
     this.addPatientCancelled();
@@ -148,6 +151,6 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
 
   addPatientCancelled(){
     this.BsModalRef?.hide();
-    this.router.navigate(['/patients']);
+    this.location.back();
   }
 }

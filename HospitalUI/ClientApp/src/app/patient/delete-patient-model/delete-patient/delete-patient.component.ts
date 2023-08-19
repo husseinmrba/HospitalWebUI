@@ -5,6 +5,7 @@ import { IPatientCommands } from 'src/app/interfaces/patients/ipatient-commands'
 import { PatientCommandsService } from '../../services/patient-commands/patient-commands.service';
 import { PatientsDataService } from '../../services/patients-data/patients-data.service';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-delete-patient',
@@ -21,7 +22,8 @@ export class DeletePatientComponent implements OnInit, OnDestroy {
   constructor(@Inject(PatientCommandsService) patientCommands: IPatientCommands,
               private bsModalRef:BsModalRef,
               private router: Router,
-              private patientsDataService: PatientsDataService) {
+              private patientsDataService: PatientsDataService,
+              private location: Location) {
 
       this._patientCommands = patientCommands;
   }
@@ -37,7 +39,7 @@ export class DeletePatientComponent implements OnInit, OnDestroy {
   }
   deletePatientCanceled(){
     this.bsModalRef.hide();
-    this.router.navigate(['/patients']);
+    this.location.back();
   }
   deletePatientConfirmed(){
     if (!!this.subDeletePatient)
