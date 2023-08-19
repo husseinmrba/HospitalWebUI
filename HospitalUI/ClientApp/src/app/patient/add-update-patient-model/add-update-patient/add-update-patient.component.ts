@@ -68,7 +68,7 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
       natinality: new FormControl(),
       phoneNumber: new FormControl(),
       email: new FormControl(),
-      gender: new FormControl(),
+      gender: new FormControl(false),
       country: new FormControl(),
       city: new FormControl(),
       street: new FormControl(),
@@ -155,5 +155,30 @@ export class AddUpdatePatientComponent implements OnInit, OnDestroy  {
     const params = this.router.parseUrl(this.router.url).queryParams;
 
     this.router.navigate(['/patients'],{ queryParams: params });
+  }
+
+  isDirty(fieldName: string) {
+    return this.addPatientForm.get(fieldName)?.dirty;
+  }
+  isTouched(fieldName: string){
+    return this.addPatientForm.get(fieldName)?.touched;
+  }
+  isRequiredError(fieldName: string): boolean {
+    return this.addPatientForm.get(fieldName)?.errors?.['required'];
+  }
+  isEmailError(fieldName: string): boolean {
+    return this.addPatientForm.get(fieldName)?.errors?.['email'];
+  }
+  isGreaterThanZero(fieldName: string){
+    const control = this.addPatientForm.get(fieldName) as FormControl;
+    return control.value <= 0;
+  }
+  isInvalidDate(fieldName: string): boolean {
+    const control = this.addPatientForm.get(fieldName) as FormControl;
+
+    const selectedDate = new Date(control.value);
+    const currentDate = new Date();
+    
+    return (control.invalid && control.dirty && control.touched) || (selectedDate > currentDate);
   }
 }
